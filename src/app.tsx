@@ -3,7 +3,7 @@ import { siteConfig } from './config/site'
 import { buttonVariants } from './components/ui/button'
 import { PostItem } from './components/post-item'
 import { posts } from './.velite'
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router"
 import './globals.css'
 
 
