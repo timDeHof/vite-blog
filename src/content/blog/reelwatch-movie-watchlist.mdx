@@ -1,0 +1,93 @@
+---
+title: ReelWatch - Movie Watchlist
+description: A movie watchlist app built with Appwrite Cloud and Next.js
+published: true
+date: 2023-06-12 01:55:51 UTC
+tags: ["react", "appwriteio"]
+canonical_url: https://blog.timdehof.dev/reelwatch-movie-watchlist
+cover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fnuhxrjjj5ii9tspqq2e.jpg
+---
+
+# ReelWatch: [Appwrite](https://appwrite.io/) [Hashnode](https://hashnode.com/) Hackathon
+
+## Team Details
+
+- [Tim](https://blog.timdehof.dev/): That's me. I built this all by myself.
+
+## About This Project
+
+As an avid movie enthusiast, I have always been captivated by the enchanting world of cinema and the art of storytelling. I take great pleasure in exploring diverse genres, discovering emerging directors, and relishing the excitement of watching my beloved actors on the grand screen. Despite my passion for movies, the vast array of options often leaves me feeling overwhelmed and struggling to keep track of all the films that intrigue me. Therefore, I created a meticulously curated movie watchlist, featuring all the movies that have caught my eye, piqued my curiosity, or stirred my emotions.
+
+The version I'm submitting for the Appwrite Hackathon is a work in progress and not the final version. My aim with this watchlist was to create a simple and efficient tool to keep track of my movie choices, create shareable viewing schedules, and ensure that I never forget a great film suggestion from my friends.
+
+To facilitate a public demo, some features such as a shared viewing schedule are currently unavailable. However, I have implemented user authorization, which allows friends and family to access my watchlist and add their movie recommendations.
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) - The main framework used to build the web app, including the client-side and server-side logic.
+
+- [React](https://react.dev/) - The main library used to build the UI components of the web app, including the search bar, movie cards, and watchlist.
+
+- [Tailwind CSS](https://tailwindcss.com/) - The main CSS framework used to style the UI components of the web app, providing a consistent style and layout.
+
+- [Axios](https://axios-http.com/docs/intro) - The main HTTP client used to make API requests to the TMDB API, providing movie data to update the UI components with the movie information.
+
+- [Appwrite Cloud](https://appwrite.io/) - The main backend as a service platform used to store user watchlists, providing authentication, storage, and retrieval of watchlists.
+
+- [TypeScript](https://www.typescriptlang.org/) - a superset of JavaScript that adds static typing to the language. It was used to add type annotations to the codebase and catch type-related errors during development.
+
+- [UUID](https://www.npmjs.com/package/uuid) - a library used to generate unique identifiers. It was used to generate unique IDs for each movie in the watchlist.
+
+- [ESLint](https://eslint.org/) - a linter used to enforce coding standards and catch syntax errors. It was used to maintain code quality and consistency throughout the project.
+
+- [Prettier](https://prettier.io/) - a code formatter used to enforce a consistent code style. It was used to format the codebase according to a predefined set of rules.
+
+- [Vercel](https://vercel.com/home) - for automatic deployment from GitHub repo.
+
+## Challenges I Faced
+
+One of the exciting challenges I encountered while working on this project was designing the database schema. Although I typically work with relational databases like Postgres, I had the opportunity to explore a new approach because Appwrite Cloud did not yet support relations at the time. This presented an opportunity to think creatively and design a general watchlist table that allowed all logged-in users to add movies to the watchlist. By embracing this challenge, I was able to expand my skills and learn new ways of approaching database design. I was able to come up with the following attributes
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1686535529970/efb2d802-c9df-4f93-8d37-25dae1aae93b.jpeg)
+
+Another exciting challenge I encountered while working on this project was implementing pagination for the TMDB API to fetch movie data for the keyword search. Although both the TMDB API and Appwrite's databases use page-based pagination to retrieve results, I had the opportunity to explore the different approaches and determine the best option for this project. With the TMDB API, the client must make additional API requests to retrieve additional pages of the results, which can be time-consuming and inefficient. However, with Appwrite databases, the client can use offset pagination or cursor pagination to divide data into discrete pages, which can be more efficient and user-friendly. After careful consideration, I decided to use offset pagination with Appwrite `Query.limit()` and `Query.offset()` functions, which allowed me to easily paginate the watchlist and present the data to the user in a user-friendly way. By embracing this challenge, I was able to expand my skills and learn new ways of approaching pagination in web development.
+
+In conclusion, using Appwrite Cloud for your backend as a service needs can provide numerous benefits, such as easy user authentication, secure storage of user data, and efficient pagination of large datasets. With Appwrite's powerful API, you can easily integrate backend functionality into your web app, allowing you to focus on building a great user experience. By embracing the challenges of this project and using Appwrite Cloud, I was able to learn new approaches to database design and pagination that expanded my skills and improved the overall functionality of the web app. If you're interested in learning more about Appwrite Cloud and how it can benefit your project, I highly encourage you to visit their website and sign up for a free account today.
+
+## Public Code Repo
+
+[https://github.com/timDeHof/movie-nextjs-app](https://github.com/timDeHof/movie-nextjs-app)
+
+Feel free to poke around! This project was a learning experience, especially with typescript and next.js. By all means, submit a PR if you see something you think can be improved upon. I am never too afraid to learn something new.
+
+## Demo Link
+
+[https://reelwatch.vercel.app/](https://reelwatch.vercel.app/)
+
+To access the movie database, users need to log in with their credentials. Upon successful login, a JWT token is generated and stored in the local storage, which initiates a session. To end the session, users can log out, which removes the token from the local storage. Adding movies to the watchlist is a breeze. Users can enter a search phrase in the search field to get a list of search results. After selecting a movie from the list, users can visit the movie's page, where they can add the movie to their watchlist or visit the movie's homepage. Once the process is complete, users are redirected back to the search page to continue searching. Please note that only 25 users are allowed to authenticate for this open-source demo. However, I have pre-populated the database with some of my favorite movies, so feel free to explore and enjoy.
+
+## Actionshots of the Reelwatch application
+
+### User Authorization:
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1686532401247/9eb66508-52f3-4e8b-8a42-425d89c9ada8.gif)
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1686532452743/f2d7b8aa-b56b-42da-8d4c-95d7e7833a45.gif)
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1686532494367/d09e48f2-4028-4ca9-849d-89e00edfa175.gif)
+
+### Search for movies:
+
+![](https://media.giphy.com/media/lMjZFyX1cdpISnFMhn/giphy.gif)
+
+### Add a movie to your watchlist:
+
+![](https://media.giphy.com/media/xGb40Uj8thK1dgPuOA/giphy.gif)
+
+### Find it in the Watchlist:
+
+![](https://media.giphy.com/media/7R5KQpK7ijulQePE15/giphy.gif)
+
+## Conclusion:
+
+As the developer of ReelWatch, I'm thrilled to share this meticulously curated movie watchlist with fellow movie enthusiasts. The app provides a simple and efficient tool for tracking movie choices, creating shareable viewing schedules, and ensuring that great film suggestions are never forgotten. While the app is still a work in progress and needs some refinement, I'm excited to continue improving it. Currently, some features such as a shared viewing schedule are unavailable, but user authorization has been implemented, allowing friends and family to access the watchlist and add their movie recommendations. The app's tech stack includes Next.js, React, Tailwind CSS, Axios, Appwrite Cloud, TypeScript, UUID, ESLint, Prettier, and Vercel. Throughout the development process, I faced challenges such as designing the database schema and implementing pagination for the TMDB API. However, I embraced these challenges and used Appwrite Cloud to expand my skills and improve the app's overall functionality. ReelWatch is a great example of how Appwrite Cloud can benefit your backend as a service needs, providing easy user authentication, secure storage of user data, and efficient pagination of large datasets. I'm excited to continue working on ReelWatch and improving it for movie enthusiasts everywhere.

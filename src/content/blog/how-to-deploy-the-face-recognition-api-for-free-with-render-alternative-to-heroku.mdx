@@ -1,0 +1,131 @@
+---
+title: How to Deploy the Face Recognition API for Free with Render Alternative to Heroku
+description: Learn how to deploy the Face Recognition API for free with Render alternative to Heroku
+published: true
+date: 2022-12-20 00:00:00 UTC
+tags: ["web development", "heroku", "render", "free", "face recognition"]
+---
+
+This would benefit people doing ZTM Academy's "Complete Web Developer in 2023: Zero to Mastery" course. If you are interested in this project and the course, then become a [member of Zero To Mastery.](https://zerotomastery.io/)
+
+**This article focuses on ZTM Academy's "The Complete Web Developer in 2023" course. Following up on the Face Recognition Project, the course demonstrates how to upload to Heroku. Due to the company's generous free tier expired on November 28, 2022, consumers must now buy a subscription plan from Heroku. This article teaches how to deploy the server API onto [Render](https://render.com/). It's a free alternative to Heroku with a similar easy deployment process.**
+
+**So, let's get started.**
+
+## What to Do Before Deploying
+
+1. Sign into your render account [here](https://dashboard.render.com/register?next=/)
+2. Copy or generate your **authorization/personal access token** from Clarifai API
+
+
+## Create a render database
+
+
+1. Click the "New PostgreSQL" button on the PostgreSQL card in the dashboard or the "New +" button in the header next to your profile image after logging in.
+On click, you will see the following screen:
+![New PostgreSQL](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gteddqajgl8yg83ivwfc.jpg)
+> You can give your database a memorable name.
+> The database name and user name cannot be changed after creation. If you omit them, Render will generate random values for them.
+
+2. Click the `Create Database` button and you will be presented with the following screen:
+ ![Connections](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2lm3lpsouznl41vwo5p8.jpg)
+
+3. Copy/Write down your database's **hostname, port, username, database** from the database page. We will need to enter this into our `server.js`
+
+## Setup for connecting to the database in the API
+
+For security reasons, I installed the [dotenv](https://www.npmjs.com/package/dotenv) npm package:
+
+```
+npm install dotenv --save
+```
+
+Next, in the root, create a file called '.env' that will need to be added to the '.gitignore' file before committing to your git repo.
+
+In the `.env` file, input the **Clarifai api key** and **your database password** like shown:
+
+```javascript
+DB_PASSWORD={your database password},
+API_CLARIFAI={your clarifai key}
+```
+In your `server.js`, add to the top:
+
+```javascript
+require("dotenv").config()
+```
+Also, you need to change the `connection:` options in the `knex` module to your database's **hostname, port, username, database** like so:
+
+```javascript
+const db = knex({
+  client: "pg",
+  connection: {
+    host: "{your database hostname}",
+    user: "{your database username}",
+    database: "{your database database}",
+    password: process.env.DB_PASSWORD,
+    port: 5432,
+    ssl: true,
+  },
+})
+```
+
+`process.env.DB_PASSWORD` would come from your `.env` file
+
+If you did the optional gRPC Clarifai API, you can change the
+
+```javascript
+metadata.set("authorization", "Key {YOUR_CLARIFAI_API_KEY}");
+```
+
+to
+
+```javascript
+metadata.set("authorization", `Key ${process.env.API_CLARIFAI}`)
+
+```
+
+## Connect to the database
+
+In the course, you learn how to use PSequel to connect to the  database. But I like to use Postico which is similar, here are the steps I follow.
+
+1.  First, open Postico and click on the `New Favorite` button in the bottom left corner.
+
+2.  In the `New Favorite` window, enter the connection details for your database. This includes the host, port, user, password, and database name. Check the `Save in Keychain` box.
+
+3.  Once you have entered the connection details, click on the "Connect" button to establish a connection to the database.
+
+4.  If the connection is successful, you will see a list of your databases in the left-hand panel. Click the database you want to connect to, which should appear to the right.
+![Screen showing connected database in Postico](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bmtrrolv894c4maoi25n.jpg)
+
+5.  Once you are connected to the database, you can explore the tables and data within it using the tabs below the main window. You can also run SQL queries using the query editor located above your database in the left panel.
+
+6.  To disconnect from the database, simply click on the `X` button in the top left corner.
+
+Overall, Connecting to a database using Postico is a simple process. By following these steps, you can easily access and manipulate your database data.
+
+## Deploy the API as a Web Service
+
+1. Select `Web Service` from the `New +` dropdown in the Render Dashboard.
+![render dashboard with web service in dropdown](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/023z9wz7rkt70fmx8mj0.jpg)
+
+2. Select the API github repository to deploy from. You'll need to connect your Github account to Render if you haven't already. Public and private repositories are also supported.
+![Select the API github repository](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2ihifmo0lbs4mgluetha.jpg)
+
+3. Specify the following. Render will auto populate some values with the best guess on your code.
+    - `Name`: A name for your Web Service
+    - `Environment`: Node
+    - `Region`: This needs to be the same region as your
+       render database
+    - `Branch`: The git branch to build
+    - `Build Command`: npm i or npm install
+    - `Start Command`: node server.js
+    - `Plan`: Choose from the available plans.
+    - `Advanced`: you can specify environment variables here
+
+4. Click `Create Web Service`. Once the build completes, your service starts, and it is listening on a port, you can connect to the service.
+> By default, Render uses Nodes version `14.17.0`.
+>Follow the procedures in this [link](https://render.com/docs/node-version) to customize it for your app.
+
+It's been a long road, but you've finally made it to the end of this article. Now go ahead and finish up that project you've been working on. And don't forget to host it using Render, the free and easy-to-use alternative to Heroku.
+
+Thanks for reading, and happy coding!
