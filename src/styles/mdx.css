@@ -1,39 +1,96 @@
+/* Base article styling */
+article > p {
+  @apply leading-7 [&:not(:first-child)]:mt-6;
+}
+
+/* Tag styling */
+.tag {
+  @apply inline-flex items-center rounded-md bg-muted px-2 py-1 text-sm font-medium text-muted-foreground;
+}
+
+/* Code block container */
+[data-rehype-pretty-code-figure] {
+  @apply my-0 rounded-lg border bg-card w-full;
+}
+
 [data-rehype-pretty-code-figure] pre {
-	@apply px-0;
+  @apply overflow-x-auto w-full py-4;
 }
 
 [data-rehype-pretty-code-figure] code {
-	@apply text-sm !leading-loose md:text-base border-0 p-0;
+  @apply grid w-full break-words border-0 bg-transparent px-0;
+  counter-reset: line;
 }
 
-[data-rehype-pretty-code-figure] code[data-line-numbers] {
-	counter-reset: line;
+/* Code block title */
+[data-rehype-pretty-code-title] {
+  @apply rounded-t-lg border-b bg-muted px-4 py-0 font-mono text-sm font-medium text-muted-foreground;
 }
 
-[data-rehype-pretty-code-figure] code[data-line-numbers] > [data-line]::before {
-	counter-increment: line;
-	content: counter(line);
-	@apply mr-4 inline-block w-4 text-right text-gray-500;
+/* Line numbers */
+[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  @apply mr-4 inline-block w-6 text-right text-muted-foreground;
 }
 
-[data-rehype-pretty-code-figure] [data-line] {
-	@apply border-l-2 border-l-transparent px-3;
+/* Line styling */
+[data-line] {
+  @apply border-l-2 border-l-transparent px-4 min-h-[1.375rem];
 }
 
-[data-rehype-pretty-code-figure] [data-highlighted-line] {
-	background: rgba(200, 200, 255, 0.1);
-	@apply border-l-blue-400;
+/* Highlighted line */
+[data-line].highlighted {
+  @apply border-l-primary bg-primary/10;
 }
 
-[data-rehype-pretty-code-figure] [data-highlighted-chars] {
-	@apply rounded bg-zinc-600/50;
-	box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+/* Highlighted word */
+[data-highlighted-chars] {
+  @apply rounded-md bg-primary/10 p-1;
 }
 
-[data-rehype-pretty-code-figure] [data-chars-id] {
-	@apply border-b-2 p-1 shadow-none;
+/* Inline code */
+:not(pre) > code {
+  @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium;
 }
 
+/* Copy button */
+.code-block-copy-button {
+  @apply absolute right-4 top-4 h-6 w-6 rounded-md border bg-background/50
+         opacity-0 transition-opacity hover:bg-accent
+         group-hover:opacity-100;
+}
+
+/* ANSI colors */
+.ansi-black-fg { @apply text-zinc-900 dark:text-zinc-50; }
+.ansi-red-fg { @apply text-red-600 dark:text-red-400; }
+.ansi-green-fg { @apply text-green-600 dark:text-green-400; }
+.ansi-yellow-fg { @apply text-yellow-600 dark:text-yellow-400; }
+.ansi-blue-fg { @apply text-blue-600 dark:text-blue-400; }
+.ansi-magenta-fg { @apply text-purple-600 dark:text-purple-400; }
+.ansi-cyan-fg { @apply text-cyan-600 dark:text-cyan-400; }
+.ansi-white-fg { @apply text-zinc-100 dark:text-zinc-900; }
+
+/* Link styles */
 .subheading-anchor {
-	@apply no-underline hover:underline;
+  @apply no-underline;
+  text-decoration: none !important;
+}
+
+.subheading-anchor:hover {
+  @apply text-foreground;
+}
+
+/* Adjust line spacing */
+[data-line] {
+  @apply border-l-2 border-l-transparent px-4 min-h-[1.75rem] w-full flex items-center;
+}
+
+/* Remove any prose-specific spacing */
+.prose :where(pre):not(:where([class~="not-prose"] *)) {
+  @apply my-0 max-w-none w-full;
+}
+
+.prose :where([data-rehype-pretty-code-figure]):not(:where([class~="not-prose"] *)) {
+  @apply my-0 max-w-none w-full;
 }
