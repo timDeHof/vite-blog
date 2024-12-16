@@ -4,8 +4,9 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 const computedFields = <T extends { slug: string }>(data: T) => ({
+
 	...data,
-	slugAsParams: data.slug.split("/").slice(1).join("/"),
+  slugAsParams: data.slug.split("/").slice(1).join("/"),
 });
 
 const posts = defineCollection({
@@ -18,7 +19,9 @@ const posts = defineCollection({
 			description: s.string().max(999).optional(),
 			date: s.isodate(),
 			published: s.boolean().default(true),
-			tags: s.array(s.string()).optional(),
+      tags: s.array(s.string()).optional(),
+      canonical_url: s.string().url().optional(),
+      cover: s.image().optional(),
 			body: s.mdx(),
 		})
 		.transform(computedFields),
@@ -34,10 +37,28 @@ export default defineConfig({
 		clean: true,
 	},
 	collections: { posts },
-	mdx: {
-		rehypePlugins: [
-			rehypeSlug,
-			[rehypePrettyCode, { theme: "github-dark" }],
+  mdx: {
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypePrettyCode, {
+
+        theme: {
+          dark: "github-dark",
+          light: "github-light"
+        },
+        keepBackground: true,
+        onVisitLine(node: any) {
+          if (node.children.length === 0) {
+            node.children = [{ type: 'text', value: ' ' }];
+          }
+        },
+        onVisitHighlightedLine(node: any) {
+          node.properties.className.push('highlighted');
+        },
+        onVisitHighlightedWord(node: any) {
+          node.properties.className = ['word'];
+        },
+      }],
 			[
 				rehypeAutolinkHeadings,
 				{
@@ -50,5 +71,6 @@ export default defineConfig({
 			],
 		],
 		remarkPlugins: [],
-	},
+  },
+
 });
