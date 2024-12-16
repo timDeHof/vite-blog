@@ -1,8 +1,9 @@
-import { posts } from "../../.velite";  // Adjust this import path based on your project structure
-import { MDXContent } from "../../components/mdx-components"; // Adjust component import
-import "../../styles/mdx.css";
-import { siteConfig } from "../../config/site";
-import { Tag } from "../../components/tag";
+import { posts } from "@/.velite";  // Adjust this import path based on your project structure
+import { MDXContent } from "@/components/mdx-components"; // Adjust component import
+import "@/styles/mdx.css";
+import { siteConfig } from "@/config/site";
+import { Tag } from "@/components/tag";
+import CoverImage from "@/components/coverImage";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
@@ -22,7 +23,7 @@ export const Route = createFileRoute('/blog/$slug')({
 function BlogPost() {
   const navigate = useNavigate();
   const post = Route.useLoaderData();
-
+  console.log(post);
   useEffect(() => {
     if (!post) {
       navigate({ to: '/blog', search: {page: '1'} });
@@ -54,6 +55,7 @@ function BlogPost() {
       </Helmet>
 
       <article className="container py-6 prose dark:prose-invert max-w-3xl mx-auto">
+        {post.cover && <CoverImage src={post.cover} alt={post.title} />}
         <h1 className="mb-2">{post.title}</h1>
         <div className="flex gap-2 mb-2">
           {post.tags?.map((tag: string) => (

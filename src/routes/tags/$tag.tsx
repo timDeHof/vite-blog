@@ -1,9 +1,9 @@
-import { posts } from "../../.velite"
-import { getPostsByTagSlug, getAllTags, sortTagsByCount } from "../../lib/utils"
-import { PostItem } from "../../components/post-item"
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
+import { posts } from "@/.velite"
+import { getPostsByTagSlug, getAllTags, sortTagsByCount } from "@/lib/utils"
+import { PostItem } from "@/components/post-item"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { slug } from "github-slugger"
-import { Tag } from "../../components/tag"
+import { Tag } from "@/components/tag"
 import { createFileRoute } from "@tanstack/react-router"
 import { Helmet } from 'react-helmet-async'
 

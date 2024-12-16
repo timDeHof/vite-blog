@@ -1,14 +1,14 @@
-import { posts } from '../../.velite'
-import { PostItem } from '../../components/post-item'
-import { QueryPagination } from '../../components/query-pagination'
-import { Tag } from '../../components/tag'
+import { posts } from '@/.velite'
+import { PostItem } from '@/components/post-item'
+import { QueryPagination } from '@/components/query-pagination'
+import { Tag } from '@/components/tag'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from '../../components/ui/card'
-import { getAllTags, sortPosts, sortTagsByCount } from '../../lib/utils'
+} from '@/components/ui/card'
+import { getAllTags, sortPosts, sortTagsByCount } from '@/lib/utils'
 import { Helmet } from 'react-helmet-async'
 import { createFileRoute } from '@tanstack/react-router'
 

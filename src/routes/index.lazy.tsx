@@ -1,8 +1,8 @@
-import { sortPosts, cn } from '../lib/utils'
-import { siteConfig } from '../config/site'
-import { buttonVariants } from '../components/ui/button'
-import { PostItem } from '../components/post-item'
-import { posts } from '../.velite'
+import { sortPosts, cn } from '@/lib/utils'
+import { siteConfig } from '@/config/site'
+import { buttonVariants } from '@/components/ui/button'
+import { PostItem } from '@/components/post-item'
+import { posts } from '@/.velite'
 import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { Helmet } from 'react-helmet-async'
 
@@ -22,7 +22,7 @@ function Index() {
             Hello, I&apos;m Tim
           </h1>
           <p className="max-w-[42rem] mx-auto text-muted-foreground sm:text-xl text-balance">
-            Welcome to my blog. Built using tailwind, shadcn, velite and React
+            Exploring software development, personal growth, and engineering
           </p>
           <div className="flex flex-col gap-4 justify-center sm:flex-row">
             <Link
