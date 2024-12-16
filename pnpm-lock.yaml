@@ -63,6 +63,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.15
         version: 0.5.15(tailwindcss@3.4.16)
+      '@tanstack/eslint-plugin-router':
+        specifier: ^1.87.6
+        version: 1.87.6(eslint@9.17.0(jiti@1.21.6))(typescript@5.6.3)
       '@tanstack/router-devtools':
         specifier: ^1.89.2
         version: 1.89.2(@tanstack/react-router@1.89.2(@tanstack/router-generator@1.87.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1175,6 +1178,11 @@ packages:
     resolution: {integrity: sha512-AqhlCXl+8grUz8uqExv5OTtgpjuVIwFTSXTrh8y9/pw6q2ek7fJ+Y8ZEVw7EB2DCcuCOtEjf9w3+J3rzts01uA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20'
+
+  '@tanstack/eslint-plugin-router@1.87.6':
+    resolution: {integrity: sha512-HoJYMI8Jcsdk4Q357bSFykDIpmU+PCAhm9IQpbcPF+wuRITHBBivLy6poaM9X184ng6FDHUOTbt6L8ZF6dYfVw==}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
 
   '@tanstack/history@1.87.6':
     resolution: {integrity: sha512-5OPHcc20Ye5XR+RBkFk+64TtRJ83clrpaOcC/S8t4N0k+/xPDJpkPEPnoENb3sQeRI28y1dJaUuvXt/dv/ylaQ==}
@@ -3628,6 +3636,14 @@ snapshots:
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.16
+
+  '@tanstack/eslint-plugin-router@1.87.6(eslint@9.17.0(jiti@1.21.6))(typescript@5.6.3)':
+    dependencies:
+      '@typescript-eslint/utils': 8.18.0(eslint@9.17.0(jiti@1.21.6))(typescript@5.6.3)
+      eslint: 9.17.0(jiti@1.21.6)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   '@tanstack/history@1.87.6': {}
 
