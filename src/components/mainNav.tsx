@@ -1,4 +1,4 @@
-import { siteConfig } from "../config/site";
+import { siteConfig } from "@/config/site";
 import { Icons } from "./icons";
 import { Link } from "@tanstack/react-router"
 
