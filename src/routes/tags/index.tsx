@@ -1,6 +1,6 @@
-import { posts } from '../../.velite'
-import { getAllTags, sortTagsByCount } from '../../lib/utils'
-import { Tag } from '../../components/tag'
+import { posts } from '@/.velite'
+import { getAllTags, sortTagsByCount } from '@/lib/utils'
+import { Tag } from '@/components/tag'
 import { createFileRoute } from '@tanstack/react-router'
 import { Helmet } from 'react-helmet-async'
 

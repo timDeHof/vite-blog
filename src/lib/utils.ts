@@ -1,4 +1,4 @@
-import { Post } from "#site/content";
+import { Post } from "@/.velite";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { slug } from "github-slugger";
@@ -28,7 +28,7 @@ export const getAllTags = (posts: Array<Post>) => {
   const tags: Record<string, number> = {};
 
   posts.forEach((post) => {
-    post.tags?.forEach((tag) => {
+    post.tags?.forEach((tag: string) => {
       tags[tag] = (tags[tag] ?? 0) + 1;
     });
   });
@@ -43,7 +43,7 @@ export function sortTagsByCount(tags: Record<string, number>) {
 export function getPostsByTagSlug(posts: Array<Post>, tag: string) {
   return posts.filter((post) => {
     if (!post.tags) return false;
-    const slugifiedTags = post.tags.map((tag) => slug(tag));
+    const slugifiedTags = post.tags.map((tag: string) => slug(tag));
     return slugifiedTags.includes(tag);
   });
 }
