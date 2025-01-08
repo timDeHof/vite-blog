@@ -40,38 +40,36 @@ function BlogPost() {
   const ogImageUrl = `/api/og?${ogSearchParams.toString()}`;
 
   return (
-    <>
-      <Helmet>
-        <title>{`${post.title} - ${siteConfig.name}`}</title>
-        <meta name="description" content={post.description || ''} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.description || ''} />
-        <meta property="og:url" content={post.slug} />
-        <meta property="og:image" content={ogImageUrl} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.description || ''} />
-        <meta name="twitter:image" content={ogImageUrl} />
-      </Helmet>
+		<>
+			<Helmet>
+				<title>{`${post.title} - ${siteConfig.name}`}</title>
+				<meta name='description' content={post.description || ""} />
+				<meta property='og:title' content={post.title} />
+				<meta property='og:description' content={post.description || ""} />
+				<meta property='og:url' content={post.slug} />
+				<meta property='og:image' content={ogImageUrl} />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content={post.title} />
+				<meta name='twitter:description' content={post.description || ""} />
+				<meta name='twitter:image' content={ogImageUrl} />
+			</Helmet>
 
-      <article className="container py-6 prose dark:prose-invert max-w-3xl mx-auto">
-        {post.cover && <CoverImage src={post.cover} alt={post.title} />}
-        <h1 className="mb-2">{post.title}</h1>
-        <div className="flex gap-2 mb-2">
-          {post.tags?.map((tag: string) => (
-            <Tag key={tag} tag={tag} />
-          ))}
-        </div>
-        {post.description && (
-          <p className="text-xl mt-0 text-muted-foreground">
-            {post.description}
-          </p>
-        )}
-        <hr className="my-4" />
-        <MDXContent code={post.body} />
-      </article>
-    </>
-  );
+			{post.cover && <CoverImage src={post.cover.src} alt={post.title} />}
+			<article className='container py-6 prose dark:prose-invert max-w-3xl mx-auto'>
+				<h1 className='mb-2'>{post.title}</h1>
+				<div className='flex gap-2 mb-2'>
+					{post.tags?.map((tag: string) => <Tag key={tag} tag={tag} />)}
+				</div>
+				{post.description && (
+					<p className='text-xl mt-0 text-muted-foreground'>
+						{post.description}
+					</p>
+				)}
+				<hr className='my-4' />
+				<MDXContent code={post.body} />
+			</article>
+		</>
+	);
 }
 
 export default BlogPost;
