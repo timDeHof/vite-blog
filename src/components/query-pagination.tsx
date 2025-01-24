@@ -7,6 +7,8 @@ import {
 } from "./ui/pagination"
 import { Link } from "@tanstack/react-router"
 import { Route as blogRoute } from "../routes/blog"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "./ui/button"
 
 interface QueryPaginationProps {
   totalPages: number
@@ -29,8 +31,15 @@ export function QueryPagination({ totalPages, className }: QueryPaginationProps)
       <PaginationContent>
         {prevPage >= 1 && (
           <PaginationItem>
-            <Link to="." {...createPageURL(prevPage)}>
-              <PaginationPrevious />
+            <Link
+              to="."
+              {...createPageURL(prevPage)}
+              className={cn(
+                buttonVariants({ variant: "ghost" }),
+                "gap-1 pl-2.5"
+              )}
+            >
+              <span>Previous</span>
             </Link>
           </PaginationItem>
         )}
@@ -50,8 +59,15 @@ export function QueryPagination({ totalPages, className }: QueryPaginationProps)
         ))}
         {nextPage <= totalPages && (
           <PaginationItem>
-            <Link to="." {...createPageURL(nextPage)}>
-              <PaginationNext />
+            <Link
+              to="."
+              {...createPageURL(nextPage)}
+              className={cn(
+                buttonVariants({ variant: "ghost" }),
+                "gap-1 pr-2.5"
+              )}
+            >
+              <span>Next</span>
             </Link>
           </PaginationItem>
         )}

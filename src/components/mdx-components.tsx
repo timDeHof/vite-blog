@@ -1,9 +1,7 @@
 import * as runtime from "react/jsx-runtime";
-import React, { useState } from "react";
-import { Copy, Check, Link } from "lucide-react";
-import { Callout } from "./callout";
-
-const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(" ");
+import React, { lazy, Suspense } from "react";
+import { Link } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // Enhanced TypeScript interfaces
 interface FrontMatter {
@@ -35,46 +33,13 @@ interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement | HTMLEleme
 interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   children: React.ReactNode;
   id?: string;
+  level?: number;
 }
 
-// Enhanced Copy Button with better accessibility
-const CopyButton = ({ text }: { text: string }) => {
-  const [copied, setCopied] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      setError('Failed to copy');
-      setTimeout(() => setError(null), 2000);
-    }
-  };
-
-  return (
-    <button
-      onClick={copy}
-      className={cn(
-        "code-block-copy-button",
-        copied ? "text-green-500" : undefined,
-        error ? "text-red-500" : undefined
-      )}
-      aria-label={error ? "Failed to copy" : copied ? "Copied!" : "Copy code"}
-      title={error ? "Failed to copy" : copied ? "Copied!" : "Copy code"}
-    >
-      {error ? (
-        "!"
-      ) : copied ? (
-        <Check className="h-3.5 w-3.5" />
-      ) : (
-        <Copy className="h-3.5 w-3.5" />
-      )}
-    </button>
-  );
-};
-
+// Dynamic imports for heavy components
+const CopyButton = lazy(() => import('./copy-button'));
+const Callout = lazy(() => import('./callout'));
+const CoverImage = lazy(() => import('./cover-image'));
 // Enhanced Pre component with better type safety
 const Pre = ({ children, ...props }: React.ComponentProps<'pre'>) => {
   const codeElement = React.Children.toArray(children).find(
@@ -97,67 +62,83 @@ const Pre = ({ children, ...props }: React.ComponentProps<'pre'>) => {
 // Enhanced Code component with better structure
 const Code = ({ children, className, ...props }: CodeBlockProps) => {
   const language = props?.['data-language'];
-  const title = props?.['data-title'];
-  const caption = props?.['data-caption'];
   const isInline = !className?.includes('language-');
 
   if (isInline) {
     return (
-      <code
-        className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm"
-        {...props}
-      >
+      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm" {...props}>
         {children}
       </code>
     );
   }
 
   return (
-    <div data-rehype-pretty-code-figure="">
-      {title && (
-        <div data-rehype-pretty-code-title className="flex items-center gap-2">
-          {language && <span className="text-xs font-medium">{language}</span>}
-          <span>{title}</span>
-        </div>
-      )}
-      <code className={className} {...props}>
+    <div className="group relative my-6" data-language={language}>
+      <Suspense fallback={<div className="h-8 animate-pulse bg-muted rounded-md" />}>
+        <CopyButton text={String(children)} />
+      </Suspense>
+      <pre className={className} {...props}>
         {children}
-      </code>
-      {caption && (
-        <div data-rehype-pretty-code-caption>{caption}</div>
-      )}
+      </pre>
     </div>
   );
 };
 
-// Enhanced heading component with better accessibility
-const Heading = ({ children, id, ...props }: HeadingProps) => (
-  <h2 id={id} className="group scroll-m-20 border-b pb-2" {...props}>
-    {id && (
-      <a
-        href={`#${id}`}
-        className="subheading-anchor block"
-        aria-label={`Link to ${typeof children === 'string' ? children : 'section'}`}
-      >
-        {children}
-        <Link className="ml-2 inline-block h-4 w-4 opacity-0 group-hover:opacity-100" />
-      </a>
-    )}
-    {!id && children}
-  </h2>
-);
+// Enhanced heading component with better type handling
+const Heading = ({ children, id, level = 2, className, ...props }: HeadingProps) => {
+  const linkContent = (
+    <span className="inline-flex items-center">
+      {children}
+      {id && (
+        <a
+          href={`#${id}`}
+          className="ml-2 inline-block h-4 w-4 opacity-0 group-hover:opacity-100"
+          aria-label={`Link to ${typeof children === 'string' ? children : 'section'}`}
+        >
+          <Link className="h-4 w-4" />
+        </a>
+      )}
+    </span>
+  );
+
+  const headingProps = {
+    id,
+    className: cn('group scroll-m-20 border-b pb-2', className),
+    ...props
+  };
+
+  switch (level) {
+    case 1:
+      return <h1 {...headingProps}>{linkContent}</h1>;
+    case 3:
+      return <h3 {...headingProps}>{linkContent}</h3>;
+    default:
+      return <h2 {...headingProps}>{linkContent}</h2>;
+  }
+};
 
 const components = {
   pre: Pre,
   code: Code,
-  h2: Heading,
+  h1: (props: HeadingProps) => <Heading {...props} level={1} />,
+  h2: (props: HeadingProps) => <Heading {...props} level={2} />,
+  h3: (props: HeadingProps) => <Heading {...props} level={3} />,
   'code[data-inline="true"]': ({ children }: { children: React.ReactNode }) => (
     <code className="font-mono text-sm">{children}</code>
   ),
   span: ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
     <span style={style}>{children}</span>
   ),
-  Callout
+  Callout: (props: any) => (
+    <Suspense fallback={<div className="h-24 animate-pulse bg-muted rounded-lg" />}>
+      <Callout {...props} />
+    </Suspense>
+  ),
+  img: (props: any) => (
+    <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
+      <CoverImage {...props} />
+    </Suspense>
+  ),
 };
 
 interface MdxProps {
@@ -196,3 +177,4 @@ export function MDXContent({ code, frontMatter }: MdxProps) {
 }
 
 export { components };
+export default MDXContent;

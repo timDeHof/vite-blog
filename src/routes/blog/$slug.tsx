@@ -3,7 +3,7 @@ import { MDXContent } from "@/components/mdx-components"; // Adjust component im
 import "@/styles/mdx.css";
 import { siteConfig } from "@/config/site";
 import { Tag } from "@/components/tag";
-import CoverImage from "@/components/coverImage";
+import CoverImage from "@/components/cover-image";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
@@ -23,7 +23,6 @@ export const Route = createFileRoute('/blog/$slug')({
 function BlogPost() {
   const navigate = useNavigate();
   const post = Route.useLoaderData();
-  console.log(post);
   useEffect(() => {
     if (!post) {
       navigate({ to: '/blog', search: {page: '1'} });
