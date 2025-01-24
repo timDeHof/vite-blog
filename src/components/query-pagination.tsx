@@ -2,8 +2,6 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
 } from "./ui/pagination"
 import { Link } from "@tanstack/react-router"
 import { Route as blogRoute } from "../routes/blog"
