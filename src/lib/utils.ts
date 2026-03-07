@@ -1,7 +1,7 @@
 import { Post } from "@/.velite";
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 import { slug } from "github-slugger";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -20,7 +20,7 @@ export const sortPosts = (posts: Array<Post>) => {
   return posts.sort((a, b) => {
     const dateA = new Date(a.date).getTime();
     const dateB = new Date(b.date).getTime();
-    return dateA - dateB;
+    return dateB - dateA;
   });
 };
 
