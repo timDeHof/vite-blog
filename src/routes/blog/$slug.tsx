@@ -1,9 +1,9 @@
-import { posts } from "@/.velite";  // Adjust this import path based on your project structure
-import { MDXContent } from "@/components/mdx-components"; // Adjust component import
-import "@/styles/mdx.css";
-import { siteConfig } from "@/config/site";
-import { Tag } from "@/components/tag";
+import { posts } from "#site/content"; // Adjust this import path based on your project structure
 import CoverImage from "@/components/cover-image";
+import { MDXContent } from "@/components/mdx-components"; // Adjust component import
+import { Tag } from "@/components/tag";
+import { siteConfig } from "@/config/site";
+import "@/styles/mdx.css";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
