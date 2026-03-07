@@ -1,4 +1,5 @@
 import { join } from "path";
+import { copyFileSync, mkdirSync, existsSync } from "fs";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -32,6 +33,18 @@ const computedFields = async <T extends { slug: string; cover?: string }>(
 const processImage = async (src: string, slug: string) => {
   const slugDir = slug.replace(/\/index\.mdx$/, "").replace("blog/", "");
   const imagePath = join(process.cwd(), "src/content/blog", slugDir, src);
+  const outputDir = join(process.cwd(), "public/static/blog", slugDir);
+  
+  // Ensure output directory exists
+  if (!existsSync(outputDir)) {
+    mkdirSync(outputDir, { recursive: true });
+  }
+  
+  // Copy the image to the output directory
+  const outputPath = join(outputDir, src);
+  copyFileSync(imagePath, outputPath);
+  
+  // Process image for metadata
   const image = sharp(imagePath);
   const metadata = await image.metadata();
 
@@ -39,7 +52,7 @@ const processImage = async (src: string, slug: string) => {
   const blurImage = await image.resize(8, 8, { fit: "inside" }).toBuffer();
 
   return {
-    src: `/static/${slugDir}/${src}`,
+    src: `/static/blog/${slugDir}/${src}`,
     height: metadata.height,
     width: metadata.width,
     blurDataURL: `data:image/${metadata.format};base64,${blurImage.toString("base64")}`,
@@ -73,7 +86,7 @@ export default defineConfig({
     assets: "public/static",
     base: "/static/",
     name: "[name]-[hash:6].[ext]",
-    clean: true,
+    clean: false, // Disable clean to preserve manually copied images
   },
   collections: { posts },
   mdx: {
