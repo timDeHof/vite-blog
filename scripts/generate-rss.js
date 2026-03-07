@@ -1,5 +1,5 @@
 import { Feed } from "feed";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
 import { join } from "path";
 
 const SITE_URL = "https://blog.timdehof.dev";
@@ -56,7 +56,12 @@ function generateRSS() {
       });
     });
 
-  writeFileSync(join(process.cwd(), "dist/rss.xml"), feed.rss2());
+  const distDir = join(process.cwd(), "dist");
+  if (!existsSync(distDir)) {
+    mkdirSync(distDir, { recursive: true });
+  }
+  
+  writeFileSync(join(distDir, "rss.xml"), feed.rss2());
   console.log("RSS feed generated successfully!");
 }
 
