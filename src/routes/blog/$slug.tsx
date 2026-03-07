@@ -3,8 +3,9 @@ import CoverImage from "@/components/cover-image";
 import { MDXContent } from "@/components/mdx-components"; // Adjust component import
 import { Tag } from "@/components/tag";
 import { siteConfig } from "@/config/site";
+import { formatDate, getRelatedPosts } from "@/lib/utils";
 import "@/styles/mdx.css";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 
@@ -16,13 +17,14 @@ export const Route = createFileRoute('/blog/$slug')({
     if (!post || !post.published) {
       return null;
     }
-    return post;
+    const relatedPosts = getRelatedPosts(post, posts, 3);
+    return { post, relatedPosts };
   },
 });
 
 function BlogPost() {
   const navigate = useNavigate();
-  const post = Route.useLoaderData();
+  const { post, relatedPosts } = Route.useLoaderData() as { post: typeof posts[0]; relatedPosts: typeof posts };
   useEffect(() => {
     if (!post) {
       navigate({ to: '/blog', search: {page: '1'} });
@@ -53,20 +55,49 @@ function BlogPost() {
 				<meta name='twitter:image' content={ogImageUrl} />
 			</Helmet>
 
-			{post.cover && <CoverImage src={post.cover.src} alt={post.title} />}
-			<article className='container py-6 prose dark:prose-invert max-w-3xl mx-auto'>
-				<h1 className='mb-2'>{post.title}</h1>
-				<div className='flex gap-2 mb-2'>
-					{post.tags?.map((tag: string) => <Tag key={tag} tag={tag} />)}
+			<div className='container max-w-6xl py-6'>
+				<div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
+					<article className='lg:col-span-3 prose dark:prose-invert'>
+						{post.cover && <CoverImage src={post.cover.src} alt={post.title} />}
+						<h1 className='mb-2'>{post.title}</h1>
+						<div className='flex gap-2 mb-2'>
+							{post.tags?.map((tag: string) => <Tag key={tag} tag={tag} />)}
+						</div>
+						{post.description && (
+							<p className='text-xl mt-0 text-muted-foreground'>
+								{post.description}
+							</p>
+						)}
+						<hr className='my-4' />
+						<MDXContent code={post.body} />
+					</article>
+					<aside className='hidden lg:block lg:col-span-1'>
+						<div className='sticky top-20 space-y-6'>
+							<div>
+								<h3 className='font-semibold text-lg mb-3'>Related Posts</h3>
+								<ul className='space-y-3'>
+									{relatedPosts.map((relatedPost) => (
+										<li key={relatedPost.slug}>
+											<Link
+												to='/blog/$slug'
+												params={{ slug: relatedPost.slugAsParams || relatedPost.slug.split('/').pop() || '' }}
+												className='block group'
+											>
+												<span className='font-medium group-hover:text-primary transition-colors line-clamp-2'>
+													{relatedPost.title}
+												</span>
+												<time className='text-sm text-muted-foreground'>
+													{formatDate(relatedPost.date)}
+												</time>
+											</Link>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					</aside>
 				</div>
-				{post.description && (
-					<p className='text-xl mt-0 text-muted-foreground'>
-						{post.description}
-					</p>
-				)}
-				<hr className='my-4' />
-				<MDXContent code={post.body} />
-			</article>
+			</div>
 		</>
 	);
 }
