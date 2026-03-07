@@ -1,0 +1,234 @@
+---
+title: "Cloud Security Best Practices"
+description: "Essential security practices for cloud applications. Learn how to secure your cloud infrastructure, protect data, and implement defense-in-depth strategies."
+date: 2026-03-07
+tags: ["cloud", "security", "best-practices", "encryption", "iam"]
+published: true
+---
+
+# Cloud Security Best Practices
+
+Security is paramount in cloud computing. This guide covers essential practices for securing your cloud applications and infrastructure.
+
+## The Shared Responsibility Model
+
+Cloud security is a shared responsibility between you and your cloud provider.
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+const securityLayers = [
+  { 
+    name: "Data", 
+    you: true, 
+    provider: false,
+    examples: ["Encryption at rest", "Access controls", "Data classification"]
+  },
+  { 
+    name: "Application", 
+    you: true, 
+    provider: false,
+    examples: ["Secure coding", "Dependencies", "API security"]
+  },
+  { 
+    name: "Compute", 
+    you: true, 
+    provider: true,
+    examples: ["OS patches", "Firewall rules", "Access keys"]
+  },
+  { 
+    name: "Network", 
+    you: true, 
+    provider: true,
+    examples: ["VPC config", "Subnets", "Load balancers"]
+  },
+  { 
+    name: "Physical", 
+    you: false, 
+    provider: true,
+    examples: ["Data centers", "Hardware", "Power"]
+  },
+];
+
+export default function App() {
+  const [hovered, setHovered] = useState<number | null>(null);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>Cloud Security: Shared Responsibility</h1>
+      <p>Hover over each layer to see what's covered</p>
+      
+      <div style={{ marginTop: "30px" }}>
+        {securityLayers.map((layer, index) => (
+          <div 
+            key={layer.name}
+            onMouseEnter={() => setHovered(index)}
+            onMouseLeave={() => setHovered(null)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "15px",
+              background: hovered === index ? "#eff6ff" : "#f9fafb",
+              borderRadius: "8px",
+              marginBottom: "8px",
+              transition: "all 0.2s"
+            }}
+          >
+            <div style={{ 
+              flex: 1, 
+              fontWeight: "bold",
+              color: "#374151"
+            }}>
+              {layer.name} Security
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <span style={{
+                padding: "6px 12px",
+                background: layer.you ? "#dcfce7" : "#fee2e2",
+                color: layer.you ? "#16a34a" : "#dc2626",
+                borderRadius: "20px",
+                fontSize: "12px",
+                fontWeight: "bold"
+              }}>
+                You: {layer.you ? "✓" : "✗"}
+              </span>
+              <span style={{
+                padding: "6px 12px",
+                background: layer.provider ? "#dcfce7" : "#fee2e2",
+                color: layer.provider ? "#16a34a" : "#dc2626",
+                borderRadius: "20px",
+                fontSize: "12px",
+                fontWeight: "bold"
+              }}>
+                Provider: {layer.provider ? "✓" : "✗"}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {hovered !== null && (
+        <div style={{ marginTop: "20px", padding: "15px", background: "#f0fdf4", borderRadius: "8px" }}>
+          <strong>Examples:</strong> {securityLayers[hovered].examples.join(", ")}
+        </div>
+      )}
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Identity and Access Management (IAM)
+
+### Principle of Least Privilege
+
+Only grant the minimum permissions required:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ],
+    "Resource": [
+      "arn:aws:s3:::my-bucket",
+      "arn:aws:s3:::my-bucket/*"
+    ]
+  }]
+}
+```
+
+### Best Practices
+
+1. **Enable MFA** - Multi-factor authentication for all accounts
+2. **Use roles** - Prefer roles over long-lived access keys
+3. **Rotate credentials** - Regularly rotate API keys
+4. **Use federated identity** - SSO with corporate directory
+
+## Data Protection
+
+### Encryption
+
+```typescript
+// Server-side encryption example
+const params = {
+  Bucket: 'my-bucket',
+  Key: 'sensitive-file.txt',
+  ServerSideEncryption: 'AES256'
+};
+```
+
+### Types of Encryption
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| At Rest | Encrypt stored data | Databases, files |
+| In Transit | Encrypt network traffic | HTTPS, TLS |
+| Client-side | Encrypt before sending | Highly sensitive data |
+
+## Network Security
+
+### Defense in Depth
+
+```
+Internet → WAF → Load Balancer → VPC → Security Groups → Instance
+```
+
+### Best Practices
+
+1. **Use VPCs** - Isolate resources in private networks
+2. **Configure security groups** - Allow only necessary traffic
+3. **Use Web Application Firewall (WAF)** - Block malicious requests
+4. **Enable DDoS protection** - Cloud-native protection services
+
+## Application Security
+
+### Secure Coding Practices
+
+```typescript
+// ❌ Never do this - SQL injection vulnerable
+const query = \`SELECT * FROM users WHERE id = \${userId}\`;
+
+// ✅ Use parameterized queries
+const query = 'SELECT * FROM users WHERE id = ?';
+const result = await db.execute(query, [userId]);
+```
+
+### Security Checklist
+
+- [ ] Validate all user input
+- [ ] Sanitize data before display
+- [ ] Use secure authentication
+- [ ] Implement rate limiting
+- [ ] Log security events
+- [ ] Regular security audits
+
+## Monitoring and Incident Response
+
+### Key Metrics to Monitor
+
+- Failed login attempts
+- Unusual API call patterns
+- Data exfiltration attempts
+- Configuration changes
+- Access to sensitive resources
+
+### Incident Response Steps
+
+1. **Detect** - Identify the security event
+2. **Contain** - Limit the damage
+3. **Eradicate** - Remove the threat
+4. **Recover** - Restore normal operations
+5. **Review** - Learn from the incident
+
+## Conclusion
+
+Cloud security requires a comprehensive approach. Follow these best practices to protect your infrastructure and data in the cloud.

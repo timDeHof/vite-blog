@@ -1,0 +1,221 @@
+---
+title: "Building a CI/CD Pipeline with AWS CodePipeline"
+description: "Learn how to build a complete CI/CD pipeline using AWS CodePipeline. Automate your builds, tests, and deployments with this comprehensive guide."
+date: 2026-03-07
+tags: ["aws", "cicd", "devops", "codepipeline", "codestar"]
+published: true
+---
+
+# Building a CI/CD Pipeline with AWS CodePipeline
+
+Continuous Integration and Continuous Deployment (CI/CD) are essential skills for modern cloud developers. In this guide, we'll build a complete CI/CD pipeline using AWS CodePipeline.
+
+## What is CI/CD?
+
+CI/CD automates the process of integrating code changes and deploying them to production. AWS CodePipeline is a fully managed CI/CD service that automates your release processes.
+
+## Key Benefits
+
+- **Fully managed** - No servers to provision or manage
+- **Scalable** - Handles any volume of builds and deployments
+- **Integrated** - Works with AWS services and third-party tools
+- **Fast** - Parallel execution speeds up pipelines
+
+## Pipeline Stages Overview
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+interface PipelineStage {
+  name: string;
+  status: "pending" | "running" | "success" | "failed";
+  duration: string;
+}
+
+const stages: PipelineStage[] = [
+  { name: "Source", status: "success", duration: "2s" },
+  { name: "Build", status: "success", duration: "45s" },
+  { name: "Test", status: "success", duration: "2m" },
+  { name: "Deploy", status: "running", duration: "..." },
+];
+
+export default function App() {
+  const [currentStage, setCurrentStage] = useState(3);
+  
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "success": return "#22c55e";
+      case "running": return "#3b82f6";
+      case "failed": return "#ef4444";
+      default: return "#6b7280";
+    }
+  };
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>AWS CodePipeline Visualization</h1>
+      <p>Watch your code flow through each stage</p>
+      
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "30px", flexWrap: "wrap" }}>
+        {stages.map((stage, index) => (
+          <div key={stage.name} style={{ display: "flex", alignItems: "center" }}>
+            <div style={{
+              padding: "15px 20px",
+              background: getStatusColor(stage.status),
+              color: "white",
+              borderRadius: "8px",
+              textAlign: "center",
+              minWidth: "100px"
+            }}>
+              <div style={{ fontWeight: "bold" }}>{stage.name}</div>
+              <div style={{ fontSize: "12px", opacity: 0.9 }}>{stage.duration}</div>
+              <div style={{ 
+                fontSize: "10px", 
+                marginTop: "5px",
+                padding: "2px 6px",
+                background: "rgba(255,255,255,0.2)",
+                borderRadius: "4px"
+              }}>
+                {stage.status.toUpperCase()}
+              </div>
+            </div>
+            {index < stages.length - 1 && (
+              <div style={{ 
+                width: "30px", 
+                height: "2px", 
+                background: "#e5e7eb",
+                margin: "0 5px"
+              }} />
+            )}
+          </div>
+        ))}
+      </div>
+      
+      <div style={{ marginTop: "30px", padding: "15px", background: "#f0fdf4", borderRadius: "8px" }}>
+        <strong>Pipeline Flow:</strong> Source → Build → Test → Deploy
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Pipeline Architecture
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Source    │───▶│    Build    │───▶│    Test     │───▶│   Deploy    │
+│  (GitHub)   │    │  (CodeBuild)│    │  (CodeBuild)│    │  (CodeDeploy)│
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+```
+
+## Setting Up Your Pipeline
+
+### 1. Create the Pipeline
+
+```typescript
+import { CodePipelineClient, CreatePipelineCommand } from "@aws-sdk/client-codepipeline";
+
+const client = new CodePipelineClient({});
+
+const createPipeline = async () => {
+  await client.send(new CreatePipelineCommand({
+    pipeline: {
+      name: "my-webapp-pipeline",
+      roleArn: "arn:aws:iam::123456789012:role/codepipeline-role",
+      artifactStore: {
+        type: "S3",
+        location: "my-pipeline-artifacts"
+      },
+      stages: [
+        {
+          name: "Source",
+          actions: [
+            {
+              name: "SourceAction",
+              actionTypeId: {
+                category: "Source",
+                owner: "ThirdParty",
+                provider: "GitHub",
+                version: "1"
+              },
+              outputArtifacts: [{ name: "SourceArtifact" }],
+              configuration: {
+                Repo: "my-repo",
+                Branch: "main",
+                OAuthToken: "{{secrets:GITHUB_TOKEN}}"
+              }
+            }
+          ]
+        },
+        {
+          name: "Build",
+          actions: [
+            {
+              name: "BuildAction",
+              actionTypeId: {
+                category: "Build",
+                owner: "AWS",
+                provider: "CodeBuild",
+                version: "1"
+              },
+              inputArtifacts: [{ name: "SourceArtifact" }],
+              outputArtifacts: [{ name: "BuildArtifact" }],
+              configuration: {
+                ProjectName: "my-build-project"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }));
+};
+```
+
+### 2. buildspec.yml
+
+```yaml
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: "production"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - npm ci
+  
+  build:
+    commands:
+      - npm run build
+      - npm run test
+  
+  post_build:
+    commands:
+      - echo "Build completed"
+
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
+```
+
+## Best Practices
+
+1. **Use parallel stages** - Run independent tests in parallel
+2. **Implement manual approvals** - Require human approval for production deployments
+3. **Use artifact stores** - Store build outputs in S3
+4. **Monitor with CloudWatch** - Set up alerts for failed builds
+
+## Conclusion
+
+AWS CodePipeline is a powerful tool for automating your software delivery. Combined with CodeBuild and CodeDeploy, you can create a complete CI/CD pipeline that speeds up development and reduces errors.

@@ -1,0 +1,165 @@
+---
+title: "S3 + CloudFront: Static Site Hosting at the Edge"
+description: "Learn how to host high-performance static websites using AWS S3 and CloudFront CDN. Achieve global scalability, low latency, and cost-effective delivery."
+date: 2026-03-06
+tags: ["aws", "s3", "cloudfront", "cdn", "performance"]
+published: true
+---
+
+# S3 + CloudFront: Static Site Hosting at the Edge
+
+Combining Amazon S3 with CloudFront creates a powerful, globally distributed static site infrastructure. This guide covers everything you need to deploy fast, secure static websites.
+
+## Why This Architecture?
+
+- **Global edge network** - Content delivered from 600+ locations
+- **Cost-effective** - Pay only for what you use
+- **High availability** - 99.99% uptime SLA
+- **Secure** - Built-in DDoS protection
+- **Low latency** - Cache at edge locations
+
+## Architecture Overview
+
+```
+User → CloudFront Edge → S3 Bucket
+         ↓
+    Route 53 (DNS)
+```
+
+## Interactive CDN Visualization
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+interface EdgeLocation {
+  id: string;
+  location: string;
+  latency: number;
+}
+
+const edgeLocations: EdgeLocation[] = [
+  { id: "us-east", location: "New York", latency: 12 },
+  { id: "us-west", location: "Los Angeles", latency: 45 },
+  { id: "eu-west", location: "London", latency: 78 },
+  { id: "ap-northeast", location: "Tokyo", latency: 120 },
+  { id: "sa-east", location: "São Paulo", latency: 95 },
+];
+
+export default function App() {
+  const [activeLocation, setActiveLocation] = useState<string | null>(null);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>CloudFront Edge Network</h1>
+      <p>Click on an edge location to see latency</p>
+      
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "10px", marginTop: "20px" }}>
+        {edgeLocations.map((edge) => (
+          <div 
+            key={edge.id}
+            onClick={() => setActiveLocation(edge.id)}
+            style={{ 
+              padding: "15px", 
+              background: activeLocation === edge.id ? "#0070f3" : "#f5f5f5",
+              color: activeLocation === edge.id ? "white" : "#333",
+              borderRadius: "8px",
+              cursor: "pointer",
+              transition: "all 0.2s"
+            }}
+          >
+            <div style={{ fontWeight: "bold" }}>{edge.location}</div>
+            <div style={{ fontSize: "14px", marginTop: "5px" }}>
+              {edge.latency}ms
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {activeLocation && (
+        <div style={{ marginTop: "20px", padding: "15px", background: "#e7f3ff", borderRadius: "8px" }}>
+          <strong>✓ Cache HIT</strong> at {edgeLocations.find(e => e.id === activeLocation)?.location}!
+          <br />
+          <small>Content served from edge location - no origin request needed</small>
+        </div>
+      )}
+      
+      <div style={{ marginTop: "20px", padding: "15px", background: "#fff3cd", borderRadius: "8px" }}>
+        <strong>First Visit:</strong> Request goes to origin (S3)
+        <br />
+        <strong>Subsequent Visits:</strong> Served from edge cache
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## S3 Bucket Configuration
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "PublicReadGetObject",
+    "Effect": "Allow",
+    "Principal": "*",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::my-bucket/*"
+  }]
+}
+```
+
+## CloudFront Setup
+
+```typescript
+import { CloudFrontClient, CreateDistributionCommand } from "@aws-sdk/client-cloudfront";
+
+const createDistribution = async () => {
+  const command = new CreateDistributionCommand({
+    CallerReference: `dist-${Date.now()}`,
+    Comment: "Static site distribution",
+    Enabled: true,
+    DefaultRootObject: "index.html",
+    Origins: {
+      Quantity: 1,
+      Items: [{
+        Id: "S3-my-bucket",
+        DomainName: "my-bucket.s3.amazonaws.com",
+        S3OriginConfig: { OriginAccessIdentity: "" }
+      }]
+    },
+    DefaultCacheBehavior: {
+      TargetOriginId: "S3-my-bucket",
+      ViewerProtocolPolicy: "redirect-to-https",
+      CachePolicyId: "658327ea-f89d-4fab-a82d-5dc1ae3c9f0d"
+    }
+  });
+  
+  await client.send(command);
+};
+```
+
+## Performance Optimization Tips
+
+1. **Enable compression** - Use Brotli/Gzip
+2. **Set appropriate cache headers** - Long TTL for static assets
+3. **Use signed URLs** - For private content
+4. **Configure error pages** - Custom 404.html
+5. **Enable HTTP/2** - Better multiplexing
+
+## Cost Optimization
+
+| Usage | Estimated Cost |
+|-------|---------------|
+| S3 Storage (1GB) | $0.023/month |
+| Data Transfer (100GB) | $0.09/month |
+| CloudFront (100GB) | ~$0.085/month |
+
+## Conclusion
+
+S3 + CloudFront is the gold standard for static site hosting. It's cheap, fast, and scales automatically to handle any traffic spikes.

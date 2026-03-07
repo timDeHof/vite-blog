@@ -1,0 +1,145 @@
+---
+title: "Building a REST API with AWS DynamoDB"
+description: "Learn how to build scalable REST APIs using AWS DynamoDB as your database. Covering data modeling, CRUD operations, and best practices for cloud-native applications."
+date: 2026-03-06
+tags: ["aws", "dynamodb", "nosql", "rest-api", "database"]
+published: true
+---
+
+# Building a REST API with AWS DynamoDB
+
+AWS DynamoDB is a fully managed NoSQL database that provides single-digit millisecond performance at any scale. In this guide, we'll build a REST API using DynamoDB.
+
+## Why DynamoDB?
+
+- **Fully managed** - No servers to provision or manage
+- **Single-digit millisecond latency** - Fast reads and writes
+- **Infinite scaling** - Handles virtually unlimited throughput
+- **Built-in security** - Encryption at rest, IAM integration
+
+## Data Modeling
+
+In DynamoDB, we design for access patterns rather than relationships:
+
+```typescript
+// Example: User table access patterns
+interface User {
+  userId: string;        // Partition key
+  email: string;         // GSI for email lookups
+  name: string;
+  createdAt: number;    // Sort key for GSI
+}
+```
+
+## Interactive Data Model Demo
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+// Simulating DynamoDB item structure
+interface DynamoDBItem {
+  userId: string;
+  email: string;
+  name: string;
+  status: "active" | "inactive";
+}
+
+const initialData: DynamoDBItem[] = [
+  { userId: "USR001", email: "alice@example.com", name: "Alice Johnson", status: "active" },
+  { userId: "USR002", email: "bob@example.com", name: "Bob Smith", status: "active" },
+  { userId: "USR003", email: "carol@example.com", name: "Carol Williams", status: "inactive" },
+];
+
+export default function App() {
+  const [items] = useState<DynamoDBItem[]>(initialData);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>DynamoDB Data Model</h1>
+      <p>Simulating a DynamoDB table with partition key: userId</p>
+      
+      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+        <thead>
+          <tr style={{ background: "#f0f0f0", textAlign: "left" }}>
+            <th style={{ padding: "10px", border: "1px solid #ddd" }}>userId (PK)</th>
+            <th style={{ padding: "10px", border: "1px solid #ddd" }}>email</th>
+            <th style={{ padding: "10px", border: "1px solid #ddd" }}>name</th>
+            <th style={{ padding: "10px", border: "1px solid #ddd" }}>status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.userId}>
+              <td style={{ padding: "10px", border: "1px solid #ddd" }}>{item.userId}</td>
+              <td style={{ padding: "10px", border: "1px solid #ddd" }}>{item.email}</td>
+              <td style={{ padding: "10px", border: "1px solid #ddd" }}>{item.name}</td>
+              <td style={{ padding: "10px", border: "1px solid #ddd" }}>
+                <span style={{ 
+                  padding: "4px 8px", 
+                  borderRadius: "4px",
+                  background: item.status === "active" ? "#d4edda" : "#f8d7da",
+                  color: item.status === "active" ? "#155724" : "#721c24"
+                }}>
+                  {item.status}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
+      <div style={{ marginTop: "20px", padding: "15px", background: "#e7f3ff", borderRadius: "8px" }}>
+        <strong>Key Concept:</strong> DynamoDB uses partition keys for fast lookups. 
+        Design your access patterns first!
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Lambda + DynamoDB Integration
+
+Here's how to connect Lambda with DynamoDB:
+
+```typescript
+import { DynamoDBClient, PutItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
+
+// Create a new item
+export const createItem = async (item: any) => {
+  await docClient.send(new PutItemCommand({
+    TableName: "MyTable",
+    Item: item,
+  }));
+};
+
+// Get an item by key
+export const getItem = async (key: any) => {
+  const result = await docClient.send(new GetItemCommand({
+    TableName: "MyTable",
+    Key: key,
+  }));
+  return result.Item;
+};
+```
+
+## Best Practices
+
+1. **Use partition keys wisely** - Avoid hot keys
+2. **Leverage GSIs** - For secondary access patterns
+3. **Use TTL** - Auto-expire old data
+4. **Enable DAX** - For microsecond latency
+5. **Enable point-in-time recovery** - Backup strategy
+
+## Conclusion
+
+DynamoDB is an excellent choice for serverless applications. Its managed nature and performance characteristics make it ideal for cloud-native REST APIs.

@@ -1,0 +1,196 @@
+---
+title: "Getting Started with AWS SAM"
+description: "Learn how to use AWS Serverless Application Model (SAM) to build and deploy serverless applications quickly. Simplify your Lambda deployments with SAM."
+date: 2026-03-07
+tags: ["aws", "sam", "serverless", "lambda", "deployment"]
+published: true
+---
+
+# Getting Started with AWS SAM
+
+AWS Serverless Application Model (SAM) is an open-source framework for building serverless applications. It provides a simplified way to define your serverless resources.
+
+## What is AWS SAM?
+
+SAM is an extension of CloudFormation that makes it easier to build serverless applications. It provides:
+- Shorter syntax for defining Lambda functions, API Gateway, and DynamoDB
+- Local testing and debugging
+- Built-in best practices
+- Simplified deployment
+
+## SAM vs CloudFormation
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+const comparisons = [
+  { feature: "Lines of code", cloudformation: "~50", sam: "~20", savings: "60%" },
+  { feature: "Local testing", cloudformation: false, sam: true, savings: "Yes" },
+  { feature: "Build command", cloudformation: "Manual", sam: "sam build", savings: "Built-in" },
+  { feature: "Deploy command", cloudformation: "Manual stack update", sam: "sam deploy", savings: "One-click" },
+];
+
+export default function App() {
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>AWS SAM vs CloudFormation</h1>
+      <p>See why SAM simplifies serverless development</p>
+      
+      <table style={{ 
+        width: "100%", 
+        marginTop: "20px", 
+        borderCollapse: "collapse",
+        background: "white",
+        borderRadius: "8px",
+        overflow: "hidden"
+      }}>
+        <thead>
+          <tr style={{ background: "#f9fafb" }}>
+            <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #e5e7eb" }}>Feature</th>
+            <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #e5e7eb" }}>CloudFormation</th>
+            <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #e5e7eb" }}>AWS SAM</th>
+            <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #e5e7eb" }}>Benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparisons.map((comp, index) => (
+            <tr key={index} style={{ borderBottom: "1px solid #e5e7eb" }}>
+              <td style={{ padding: "12px" }}>{comp.feature}</td>
+              <td style={{ padding: "12px" }}>
+                {typeof comp.cloudformation === "boolean" ? (
+                  <span style={{ color: comp.cloudformation ? "#22c55e" : "#ef4444" }}>
+                    {comp.cloudformation ? "✓" : "✗"}
+                  </span>
+                ) : (
+                  comp.cloudformation
+                )}
+              </td>
+              <td style={{ padding: "12px", fontWeight: "bold", color: "#3b82f6" }}>
+                {typeof comp.sam === "boolean" ? (
+                  <span style={{ color: "#22c55e" }}>✓</span>
+                ) : (
+                  comp.sam
+                )}
+              </td>
+              <td style={{ padding: "12px", color: "#6b7280" }}>{comp.savings}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
+      <div style={{ marginTop: "20px", padding: "15px", background: "#eff6ff", borderRadius: "8px" }}>
+        <strong>Recommendation:</strong> Use SAM for serverless projects - less boilerplate, better developer experience!
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Quick Start
+
+### 1. Install SAM CLI
+
+```bash
+# macOS
+brew install aws-sam-cli
+
+# Verify installation
+sam --version
+```
+
+### 2. Initialize a Project
+
+```bash
+sam init --name my-app --runtime nodejs18
+cd my-app
+```
+
+### 3. Project Structure
+
+```
+my-app/
+├── src/
+│   └── index.js        # Your Lambda function
+├── tests/
+│   └── unit/
+│       └── test_handler.js
+├── template.yaml        # SAM template
+├── event.json          # Test events
+└── samconfig.toml      # SAM configuration
+```
+
+## template.yaml
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: My Serverless Application
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/index.handler
+      Runtime: nodejs18
+      MemorySize: 128
+      Timeout: 30
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+
+Outputs:
+  ApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello"
+```
+
+## Local Testing
+
+```bash
+# Invoke Lambda locally
+sam local invoke HelloWorldFunction
+
+# Start local API
+sam local start-api
+
+# Generate test event
+sam local invoke HelloWorldFunction --event event.json
+```
+
+## Deployment
+
+```bash
+# Build the application
+sam build
+
+# Deploy interactively
+sam deploy --guided
+
+# Or deploy directly
+sam deploy --stack-name my-app --region us-east-1
+```
+
+## Key SAM Commands
+
+| Command | Description |
+|---------|-------------|
+| `sam init` | Initialize new SAM project |
+| `sam build` | Build the application |
+| `sam local invoke` | Invoke function locally |
+| `sam local start-api` | Start local API Gateway |
+| `sam deploy` | Deploy to AWS |
+| `sam logs` | View CloudWatch logs |
+| `sam package` | Package for deployment |
+
+## Conclusion
+
+AWS SAM is the fastest way to build and deploy serverless applications. Its concise syntax and built-in tools make it perfect for developers who want to focus on code, not infrastructure.

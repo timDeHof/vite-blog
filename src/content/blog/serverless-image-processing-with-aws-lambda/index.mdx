@@ -1,0 +1,227 @@
+---
+title: "Serverless Image Processing with AWS Lambda"
+description: "Learn how to build a serverless image processing pipeline using AWS Lambda and Amazon S3. Resize, compress, and transform images automatically."
+date: 2026-03-07
+tags: ["aws", "lambda", "s3", "serverless", "image-processing"]
+published: true
+---
+
+# Serverless Image Processing with AWS Lambda
+
+Image processing is a common task that can be expensive and complex. In this guide, we'll build a serverless image processing pipeline using AWS Lambda and S3.
+
+## Architecture Overview
+
+```
+User Upload → S3 Bucket → Lambda Trigger → Process Image → Save to S3
+```
+
+## Why Serverless?
+
+- **Cost-effective** - Pay only for processing time
+- **Scalable** - Handles thousands of images automatically
+- **No servers to manage** - AWS handles infrastructure
+- **Fast** - Parallel processing for multiple images
+
+## Interactive Image Pipeline
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+interface ProcessingStep {
+  name: string;
+  status: "waiting" | "processing" | "complete";
+}
+
+const steps: ProcessingStep[] = [
+  { name: "Upload to S3", status: "complete" },
+  { name: "Trigger Lambda", status: "complete" },
+  { name: "Resize Image", status: "complete" },
+  { name: "Compress", status: "complete" },
+  { name: "Generate Thumbnails", status: "complete" },
+  { name: "Save to Output Bucket", status: "complete" },
+];
+
+export default function App() {
+  const [uploaded, setUploaded] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [complete, setComplete] = useState(false);
+  
+  const handleUpload = () => {
+    setUploaded(true);
+    setProcessing(true);
+    setTimeout(() => {
+      setProcessing(false);
+      setComplete(true);
+    }, 2000);
+  };
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>Serverless Image Processing</h1>
+      <p>Click to simulate an image upload through the pipeline</p>
+      
+      {!uploaded ? (
+        <button 
+          onClick={handleUpload}
+          style={{
+            marginTop: "20px",
+            padding: "12px 24px",
+            fontSize: "16px",
+            background: "#3b82f6",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer"
+          }}
+        >
+          Upload Image
+        </button>
+      ) : (
+        <div style={{ marginTop: "20px" }}>
+          {steps.map((step, index) => (
+            <div 
+              key={step.name}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                padding: "10px",
+                background: complete ? "#f0fdf4" : "#f9fafb",
+                borderRadius: "8px",
+                border: "1px solid #e5e7eb"
+              }}
+            >
+              <div style={{
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                background: complete ? "#22c55e" : "#6b7280",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginRight: "12px",
+                fontSize: "12px"
+              }}>
+                {complete ? "✓" : index + 1}
+              </div>
+              <span style={{ 
+                color: complete ? "#166534" : "#374151",
+                fontWeight: complete ? "600" : "400"
+              }}>
+                {step.name}
+              </span>
+              {processing && index === 2 && (
+                <span style={{ marginLeft: "auto", color: "#3b82f6" }}>
+                  Processing...
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {complete && (
+        <div style={{ marginTop: "20px", padding: "15px", background: "#dcfce7", borderRadius: "8px" }}>
+          <strong>✓ Complete!</strong> Image processed and saved to output bucket.
+        </div>
+      )}
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Lambda Function Code
+
+```typescript
+import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import { handler } from "@aws-sdk/client-lambda";
+import sharp from "sharp";
+
+const s3 = new S3Client({});
+
+export const handler = async (event: any) => {
+  // Get the bucket name and file key from the event
+  const bucket = event.Records[0].s3.bucket.name;
+  const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, " "));
+  
+  // Download the image
+  const getCommand = new GetObjectCommand({ Bucket: bucket, Key: key });
+  const response = await s3.send(getCommand);
+  const imageBuffer = await response.Body?.transformToByteArray();
+  
+  // Process the image using sharp
+  const processedImage = await sharp(imageBuffer)
+    .resize(800, 800, { fit: "inside", withoutEnlargement: true })
+    .jpeg({ quality: 80 })
+    .toBuffer();
+  
+  // Upload the processed image
+  const outputKey = \`processed/\${key}\`;
+  const putCommand = new PutObjectCommand({
+    Bucket: bucket,
+    Key: outputKey,
+    Body: processedImage,
+    ContentType: "image/jpeg"
+  });
+  
+  await s3.send(putCommand);
+  
+  return { statusCode: 200, body: "Image processed successfully" };
+};
+```
+
+## S3 Event Trigger Configuration
+
+```json
+{
+  "LambdaFunctionConfigurations": [
+    {
+      "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456789012:function:image-processor",
+      "Events": ["s3:ObjectCreated:*"],
+      "Filter": {
+        "Key": {
+          "FilterRules": [
+            {
+              "Name": "suffix",
+              "Value": ".jpg"
+            },
+            {
+              "Name": "suffix",
+              "Value": ".png"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+## Processing Options
+
+| Operation | Tool | Description |
+|-----------|------|-------------|
+| Resize | sharp | Scale images to specific dimensions |
+| Compress | sharp | Reduce file size with quality settings |
+| Thumbnail | sharp | Create multiple size variants |
+| Convert | sharp | Change image format (PNG → JPEG) |
+| Watermark | sharp | Add text or image overlays |
+
+## Best Practices
+
+1. **Use appropriate image formats** - WebP for web, JPEG for photos
+2. **Set memory allocation** - More memory = faster processing
+3. **Configure timeout** - Large images need more time
+4. **Use destination bucket** - Keep processed images separate
+
+## Conclusion
+
+Serverless image processing with Lambda is cost-effective and scalable. Process thousands of images automatically without managing any servers!

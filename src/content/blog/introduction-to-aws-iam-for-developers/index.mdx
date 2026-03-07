@@ -1,0 +1,204 @@
+---
+title: "Introduction to AWS IAM for Developers"
+description: "Master AWS Identity and Access Management (IAM) for secure cloud applications. Learn about users, roles, policies, and best practices for cloud security."
+date: 2026-03-06
+tags: ["aws", "iam", "security", "access-control", "cloud"]
+published: true
+---
+
+# Introduction to AWS IAM for Developers
+
+AWS Identity and Access Management (IAM) is the foundation of AWS security. Understanding IAM is essential for any cloud developer. This guide covers everything you need to know.
+
+## Core Concepts
+
+- **IAM Users** - Long-term credentials for people
+- **IAM Roles** - Temporary credentials for services/applications
+- **IAM Policies** - JSON documents that define permissions
+- **Groups** - Collection of users with shared permissions
+
+## Interactive Policy Simulator
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+interface PolicyStatement {
+  effect: "Allow" | "Deny";
+  action: string[];
+  resource: string;
+}
+
+const policies: PolicyStatement[] = [
+  { effect: "Allow", action: ["s3:GetObject"], resource: "arn:aws:s3:::my-bucket/*" },
+  { effect: "Allow", action: ["lambda:InvokeFunction"], resource: "arn:aws:lambda:us-east-1:123456789012:function:*" },
+  { effect: "Deny", action: ["s3:DeleteObject"], resource: "arn:aws:s3:::my-bucket/*" },
+];
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState<"allow" | "deny">("allow");
+  
+  const allowedActions = policies.filter(p => p.effect === "Allow").map(p => p.action).flat();
+  const deniedActions = policies.filter(p => p.effect === "Deny").map(p => p.action).flat();
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>IAM Policy Simulator</h1>
+      <p>Policies determine what actions are allowed or denied</p>
+      
+      <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+        <button 
+          onClick={() => setActiveTab("allow")}
+          style={{ 
+            padding: "10px 20px", 
+            background: activeTab === "allow" ? "#28a745" : "#6c757d",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+          }}
+        >
+          Allow ({allowedActions.length})
+        </button>
+        <button 
+          onClick={() => setActiveTab("deny")}
+          style={{ 
+            padding: "10px 20px", 
+            background: activeTab === "deny" ? "#dc3545" : "#6c757d",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+          }}
+        >
+          Deny ({deniedActions.length})
+        </button>
+      </div>
+      
+      <div style={{ marginTop: "20px" }}>
+        {activeTab === "allow" ? (
+          <pre style={{ background: "#f8f9fa", padding: "15px", borderRadius: "8px" }}>
+            {"{"}
+              "Version": "2012-10-17",
+              "Statement": [
+                {"  "}"Effect": "Allow",
+                  "Action": ["s3:GetObject", "lambda:InvokeFunction"],
+                  "Resource": "*"
+                {"}"}]
+            {"}"}
+          </pre>
+        ) : (
+          <pre style={{ background: "#f8f9fa", padding: "15px", borderRadius: "8px" }}>
+            {"{"}
+              "Version": "2012-10-17",
+              "Statement": [
+                {"  "}"Effect": "Deny",
+                  "Action": ["s3:DeleteObject"],
+                  "Resource": "arn:aws:s3:::my-bucket/*"
+                {"}"}]
+            {"}"}
+          </pre>
+        )}
+      </div>
+      
+      <div style={{ marginTop: "20px", padding: "15px", background: "#e7f3ff", borderRadius: "8px" }}>
+        <strong>Key Concept:</strong> Deny statements always override Allow statements.
+        Explicit deny is stronger than explicit allow.
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Policy Structure
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowS3Read",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-bucket",
+        "arn:aws:s3:::my-bucket/*"
+      ]
+    }
+  ]
+}
+```
+
+## Best Practices
+
+### 1. Use Roles Instead of Access Keys
+
+```typescript
+// ❌ Don't use long-term access keys
+const credentials = {
+  accessKeyId: "AKIA...",
+  secretAccessKey: "..."
+};
+
+// ✅ Use IAM roles with temporary credentials
+const { credentials } = await sts.assumeRole({
+  RoleArn: "arn:aws:iam::123456789012:role/MyRole",
+  RoleSessionName: "my-session"
+});
+```
+
+### 2. Follow Least Privilege
+
+```json
+{
+  "Effect": "Allow",
+  "Action": [
+    "dynamodb:GetItem",
+    "dynamodb:Query"
+  ],
+  "Resource": "arn:aws:dynamodb:us-east-1:123456789012:table/Users"
+}
+```
+
+### 3. Enable MFA for Sensitive Operations
+
+```json
+{
+  "Effect": "Deny",
+  "Action": ["s3:DeleteObject"],
+  "Resource": "arn:aws:s3:::prod-bucket/*",
+  "Condition": {
+    "Bool": { "aws:MultiFactorAuthPresent": "false" }
+  }
+}
+```
+
+## Common IAM Patterns
+
+| Pattern | Use Case |
+|---------|----------|
+| Service Role | Lambda function accessing DynamoDB |
+| Cross-Account Access | Access resources in another AWS account |
+| Federation | SSO with Okta/Google |
+| Temporary Credentials | Short-lived access for mobile apps |
+
+## Security Checklist
+
+- [ ] Enable MFA for root account
+- [ ] Use IAM roles, not access keys
+- [ ] Implement least privilege policies
+- [ ] Review unused credentials regularly
+- [ ] Enable CloudTrail logging
+- [ ] Use AWS Organizations for multiple accounts
+
+## Conclusion
+
+IAM is critical for AWS security. Master these concepts early, and follow security best practices to keep your cloud infrastructure safe.
