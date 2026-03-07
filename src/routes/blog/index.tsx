@@ -1,4 +1,4 @@
-import { posts } from '@/.velite'
+import { posts } from '#site/content'
 import { PostItem } from '@/components/post-item'
 import { QueryPagination } from '@/components/query-pagination'
 import { Tag } from '@/components/tag'
@@ -9,9 +9,9 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { getAllTags, sortPosts, sortTagsByCount } from '@/lib/utils'
-import { Helmet } from 'react-helmet-async'
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { BlogSkeleton } from '../../components/ui/blog-skeleton'
 
 const POSTS_PER_PAGE = 5
@@ -48,7 +48,7 @@ function BlogPage() {
 				/>
 			</Helmet>
 
-			<div className='container max-w-4xl py-6 lg:py-10'>
+			<div className='container max-w-6xl py-6 lg:py-10'>
 				<div className='flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8'>
 					<div className='flex-1 space-y-4'>
 						<h1 className='inline-block font-black text-4xl lg:text-5xl'>
@@ -115,7 +115,15 @@ export const Route = createFileRoute('/blog/')({
 export default BlogPage
 
 export const BlogPost = ({ slug }: { slug: string }) => {
-  const post = posts.find(p => p.slug === slug);
+  const post = posts.find((p) => p.slug === slug);
+
+  if (!post) {
+    return (
+      <div className="container py-6">
+        <p>Post not found</p>
+      </div>
+    );
+  }
 
   return (
     <Suspense fallback={<div className="container py-6"><BlogSkeleton /></div>}>
