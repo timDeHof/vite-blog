@@ -2,6 +2,12 @@ import { siteConfig } from "@/config/site";
 import { Link } from "@tanstack/react-router";
 import { Icons } from "./icons";
 
+export const primaryNav = [
+  { title: "Blog", href: "/blog" },
+  { title: "About", href: "/about" },
+  { title: "Now", href: "/now" },
+];
+
 export const MainNav = () => {
   return (
     <>
@@ -14,26 +20,16 @@ export const MainNav = () => {
           <Icons.logo className='h-6 w-6' />
           <span className='font-bold'>{siteConfig.name}</span>
         </Link>
-        <Link
-          to="/blog"
-          className=
-            '[&.active]:text-foreground text-foreground/60 text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block'
-
-        >
-          Blog
-        </Link>
-        <Link
-          to="/about"
-          className=
-            '[&.active]:text-foreground text-foreground/60 text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block'>
-          About
-        </Link>
-        <Link
-          to="/now"
-          className=
-            '[&.active]:text-foreground text-foreground/60 text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block'>
-          Now
-        </Link>
+        {primaryNav.map((item) => (
+          <Link
+            key={item.href}
+            to={item.href}
+            className=
+              '[&.active]:text-foreground text-foreground/60 text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block'
+          >
+            {item.title}
+          </Link>
+        ))}
       </nav>
       <hr />
     </>

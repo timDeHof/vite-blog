@@ -24,17 +24,20 @@ export const Route = createFileRoute('/blog/$slug')({
 
 function BlogPost() {
   const navigate = useNavigate();
-  const { post, relatedPosts } = Route.useLoaderData() as { post: typeof posts[0]; relatedPosts: typeof posts };
+  const data = Route.useLoaderData() as { post: typeof posts[0]; relatedPosts: typeof posts } | null;
+
   useEffect(() => {
-    if (!post) {
+    if (!data) {
       navigate({ to: '/blog', search: {page: '1'} });
       return;
     }
-  }, [post, navigate]);
+  }, [data, navigate]);
 
-  if (!post) {
+  if (!data) {
     return null;
   }
+
+  const { post, relatedPosts } = data;
 
   const ogSearchParams = new URLSearchParams();
   ogSearchParams.set("title", post.title);

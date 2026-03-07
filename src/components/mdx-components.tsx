@@ -1,8 +1,8 @@
-import * as runtime from "react/jsx-runtime";
-import React, { lazy, Suspense } from "react";
-import { Link } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Sandpack } from "@codesandbox/sandpack-react";
+import { Sandpack, type SandpackProps } from "@codesandbox/sandpack-react";
+import { Link } from "lucide-react";
+import React, { lazy, Suspense } from "react";
+import * as runtime from "react/jsx-runtime";
 
 // Enhanced TypeScript interfaces
 interface FrontMatter {
@@ -132,12 +132,12 @@ const components = {
       <Callout {...props} />
     </Suspense>
   ),
-  img: (props: { src?: string; alt?: string }) => (
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
-      <CoverImage src={props.src || ''} alt={props.alt || ''} />
+      <CoverImage src={props.src || ''} alt={props.alt || ''} {...props} />
     </Suspense>
   ),
-  Sandpack: (props: Record<string, unknown>) => (
+  Sandpack: (props: SandpackProps) => (
     <div className="my-8">
       <Sandpack {...props} />
     </div>

@@ -1,5 +1,5 @@
 import { Feed } from "feed";
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
 const SITE_URL = "https://blog.timdehof.dev";
@@ -7,9 +7,17 @@ const SITE_TITLE = "Tim's Blog";
 const SITE_DESCRIPTION = "A blog about my life and software development";
 
 function generateRSS() {
-  const posts = JSON.parse(
-    readFileSync(join(process.cwd(), ".velite/posts.json"), "utf-8"),
-  );
+  let posts;
+  try {
+    posts = JSON.parse(
+      readFileSync(join(process.cwd(), ".velite/posts.json"), "utf-8"),
+    );
+  } catch (error) {
+    console.error(
+      `Error reading or parsing .velite/posts.json: ${error instanceof Error ? error.message : error}`,
+    );
+    process.exit(1);
+  }
 
   const feed = new Feed({
     title: SITE_TITLE,
@@ -56,12 +64,12 @@ function generateRSS() {
       });
     });
 
-  const distDir = join(process.cwd(), "dist");
-  if (!existsSync(distDir)) {
-    mkdirSync(distDir, { recursive: true });
+  const publicDir = join(process.cwd(), "public");
+  if (!existsSync(publicDir)) {
+    mkdirSync(publicDir, { recursive: true });
   }
-  
-  writeFileSync(join(distDir, "rss.xml"), feed.rss2());
+
+  writeFileSync(join(publicDir, "rss.xml"), feed.rss2());
   console.log("RSS feed generated successfully!");
 }
 

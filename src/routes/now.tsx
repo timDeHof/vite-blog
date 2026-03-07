@@ -1,6 +1,9 @@
-import { siteConfig } from '@/config/site'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { Helmet } from 'react-helmet-async'
+import { siteConfig } from '@/config/site';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { Helmet } from 'react-helmet-async';
+
+// Last updated timestamp - update this when making significant changes
+const LAST_UPDATED = new Date('2026-03-07');
 
 function NowPage() {
   return (
@@ -20,7 +23,7 @@ function NowPage() {
           </div>
         </div>
         <p className="text-muted-foreground text-sm mt-2 mb-8">
-          Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          Last updated: {LAST_UPDATED.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
         <hr className="my-8" />
 

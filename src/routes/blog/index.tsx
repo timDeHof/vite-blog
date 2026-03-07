@@ -115,7 +115,7 @@ export const Route = createFileRoute('/blog/')({
 export default BlogPage
 
 export const BlogPost = ({ slug }: { slug: string }) => {
-  const post = posts.find((p) => p.slug === slug);
+  const post = posts.find((p) => p.slugAsParams === slug && p.published);
 
   if (!post) {
     return (
