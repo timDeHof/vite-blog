@@ -47,3 +47,16 @@ export function getPostsByTagSlug(posts: Array<Post>, tag: string) {
     return slugifiedTags.includes(tag);
   });
 }
+
+export function getRelatedPosts(currentPost: Post, allPosts: Array<Post>, limit = 3) {
+  const currentTags = currentPost.tags || [];
+  return allPosts
+    .filter((post) => post.slug !== currentPost.slug && post.published)
+    .map((post) => ({
+      post,
+      matchCount: post.tags?.filter((tag) => currentTags.includes(tag)).length || 0,
+    }))
+    .sort((a, b) => b.matchCount - a.matchCount)
+    .slice(0, limit)
+    .map((r) => r.post);
+}
