@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as NowImport } from './routes/now'
 import { Route as AboutImport } from './routes/about'
 import { Route as TagsIndexImport } from './routes/tags/index'
 import { Route as BlogIndexImport } from './routes/blog/index'
@@ -24,6 +25,12 @@ import { Route as BlogSlugImport } from './routes/blog/$slug'
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const NowRoute = NowImport.update({
+  id: '/now',
+  path: '/now',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AboutRoute = AboutImport.update({
   id: '/about',
@@ -79,6 +86,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/now': {
+      id: '/now'
+      path: '/now'
+      fullPath: '/now'
+      preLoaderRoute: typeof NowImport
+      parentRoute: typeof rootRoute
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
@@ -115,6 +129,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutRoute
+  '/now': typeof NowRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/blog': typeof BlogIndexRoute
@@ -124,6 +139,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutRoute
+  '/now': typeof NowRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/blog': typeof BlogIndexRoute
@@ -134,6 +150,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/about': typeof AboutRoute
+  '/now': typeof NowRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/blog/': typeof BlogIndexRoute
@@ -142,13 +159,21 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/blog/$slug' | '/tags/$tag' | '/blog' | '/tags'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/now'
+    | '/blog/$slug'
+    | '/tags/$tag'
+    | '/blog'
+    | '/tags'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blog/$slug' | '/tags/$tag' | '/blog' | '/tags'
+  to: '/' | '/about' | '/now' | '/blog/$slug' | '/tags/$tag' | '/blog' | '/tags'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/now'
     | '/blog/$slug'
     | '/tags/$tag'
     | '/blog/'
@@ -159,6 +184,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutRoute: typeof AboutRoute
+  NowRoute: typeof NowRoute
   BlogSlugRoute: typeof BlogSlugRoute
   TagsTagRoute: typeof TagsTagRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -168,6 +194,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutRoute: AboutRoute,
+  NowRoute: NowRoute,
   BlogSlugRoute: BlogSlugRoute,
   TagsTagRoute: TagsTagRoute,
   BlogIndexRoute: BlogIndexRoute,
@@ -186,6 +213,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/now",
         "/blog/$slug",
         "/tags/$tag",
         "/blog/",
@@ -197,6 +225,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/now": {
+      "filePath": "now.tsx"
     },
     "/blog/$slug": {
       "filePath": "blog/$slug.tsx"
