@@ -2,6 +2,7 @@ import * as runtime from "react/jsx-runtime";
 import React, { lazy, Suspense } from "react";
 import { Link } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Sandpack } from "@codesandbox/sandpack-react";
 
 // Enhanced TypeScript interfaces
 interface FrontMatter {
@@ -138,6 +139,11 @@ const components = {
     <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
       <CoverImage {...props} />
     </Suspense>
+  ),
+  Sandpack: (props: any) => (
+    <div className="my-8">
+      <Sandpack {...props} />
+    </div>
   ),
 };
 
