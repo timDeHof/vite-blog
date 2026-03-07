@@ -24,9 +24,9 @@
 
     "baseUrl": ".",
     "paths": {
-			"@/*": ["./src/*"],
-			"#site/content": ["./.velite"]
-		}
+      "@/*": ["./src/*"],
+      "#site/content": ["./.velite"]
+    }
   },
   "include": ["src"]
 }
