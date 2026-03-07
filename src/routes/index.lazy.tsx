@@ -1,8 +1,8 @@
-import { sortPosts, cn } from '@/lib/utils'
-import { siteConfig } from '@/config/site'
-import { buttonVariants } from '@/components/ui/button'
+import { posts } from '#site/content'
 import { PostItem } from '@/components/post-item'
-import { posts } from '@/.velite'
+import { buttonVariants } from '@/components/ui/button'
+import { siteConfig } from '@/config/site'
+import { cn, sortPosts } from '@/lib/utils'
 import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { Helmet } from 'react-helmet-async'
 
@@ -47,7 +47,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="container max-w-4xl py-6 lg:py-10 flex flex-col space-y-6 mt-60">
+      <section className="container max-w-6xl py-6 lg:py-10 flex flex-col space-y-6 mt-60">
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-center">
           Latest Posts
         </h2>
