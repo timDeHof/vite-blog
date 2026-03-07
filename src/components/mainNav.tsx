@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
+import { Link } from "@tanstack/react-router";
 import { Icons } from "./icons";
-import { Link } from "@tanstack/react-router"
 
 export const MainNav = () => {
   return (
@@ -27,6 +27,12 @@ export const MainNav = () => {
           className=
             '[&.active]:text-foreground text-foreground/60 text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block'>
           About
+        </Link>
+        <Link
+          to="/now"
+          className=
+            '[&.active]:text-foreground text-foreground/60 text-sm font-medium transition-colors hover:text-primary hidden sm:inline-block'>
+          Now
         </Link>
       </nav>
       <hr />
