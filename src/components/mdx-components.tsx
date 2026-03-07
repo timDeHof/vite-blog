@@ -18,7 +18,7 @@ interface FrontMatter {
 interface CodeElementProps {
   children: string | string[];
   className?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement | HTMLElement> {
@@ -127,20 +127,17 @@ const components = {
   'code[data-inline="true"]': ({ children }: { children: React.ReactNode }) => (
     <code className="font-mono text-sm">{children}</code>
   ),
-  span: ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-    <span style={style}>{children}</span>
-  ),
-  Callout: (props: any) => (
+  Callout: (props: Record<string, unknown>) => (
     <Suspense fallback={<div className="h-24 animate-pulse bg-muted rounded-lg" />}>
       <Callout {...props} />
     </Suspense>
   ),
-  img: (props: any) => (
+  img: (props: { src?: string; alt?: string }) => (
     <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
-      <CoverImage {...props} />
+      <CoverImage src={props.src || ''} alt={props.alt || ''} />
     </Suspense>
   ),
-  Sandpack: (props: any) => (
+  Sandpack: (props: Record<string, unknown>) => (
     <div className="my-8">
       <Sandpack {...props} />
     </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 
-const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(" ");
+import { cn } from "@/lib/utils";
 
 // Enhanced Copy Button with better accessibility
 const CopyButton = ({ text }: { text: string }) => {
@@ -13,7 +13,7 @@ const CopyButton = ({ text }: { text: string }) => {
 			await navigator.clipboard.writeText(text);
 			setCopied(true);
 			setTimeout(() => setCopied(false), 2000);
-		} catch (err) {
+		} catch {
 			setError("Failed to copy");
 			setTimeout(() => setError(null), 2000);
 		}
