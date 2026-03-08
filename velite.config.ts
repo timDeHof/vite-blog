@@ -1,5 +1,5 @@
-import { join } from "path";
-import { copyFileSync, mkdirSync, existsSync } from "fs";
+import { copyFileSync, existsSync, mkdirSync } from "fs";
+import { dirname, join, resolve } from "path";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -32,18 +32,30 @@ const computedFields = async <T extends { slug: string; cover?: string }>(
 
 const processImage = async (src: string, slug: string) => {
   const slugDir = slug.replace(/\/index\.mdx$/, "").replace("blog/", "");
-  const imagePath = join(process.cwd(), "src/content/blog", slugDir, src);
-  const outputDir = join(process.cwd(), "public/static/blog", slugDir);
-  
-  // Ensure output directory exists
-  if (!existsSync(outputDir)) {
-    mkdirSync(outputDir, { recursive: true });
+
+  // Resolve the source image path using path.resolve
+  const imagePath = resolve(process.cwd(), "src/content/blog", slugDir, src);
+
+  // Verify the resolved path starts with the post-directory root to prevent path traversal
+  const postDirRoot = resolve(process.cwd(), "src/content/blog", slugDir);
+  if (!imagePath.startsWith(postDirRoot)) {
+    throw new Error(
+      `Path traversal detected: ${src} is outside the post directory`,
+    );
   }
-  
-  // Copy the image to the output directory
+
+  const outputDir = join(process.cwd(), "public/static/blog", slugDir);
   const outputPath = join(outputDir, src);
+
+  // Ensure the full directory tree for the destination exists (including parent dirs of outputPath)
+  const outputParentDir = dirname(outputPath);
+  if (!existsSync(outputParentDir)) {
+    mkdirSync(outputParentDir, { recursive: true });
+  }
+
+  // Copy the image to the output directory
   copyFileSync(imagePath, outputPath);
-  
+
   // Process image for metadata
   const image = sharp(imagePath);
   const metadata = await image.metadata();

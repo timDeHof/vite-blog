@@ -4,7 +4,7 @@
         <title>Tim's Blog</title>
         <link>https://blog.timdehof.dev</link>
         <description>A blog about my life and software development</description>
-        <lastBuildDate>Sun, 08 Mar 2026 16:27:50 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 08 Mar 2026 16:50:42 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en</language>
@@ -46,22 +46,22 @@
             <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
         </item>
         <item>
-            <title><![CDATA[Containerization with Docker]]></title>
-            <link>https://blog.timdehof.dev/blog/containerization-with-docker</link>
-            <guid>https://blog.timdehof.dev/blog/containerization-with-docker</guid>
-            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></description>
-            <content:encoded><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></content:encoded>
-            <author>timdehof@gmail.com (Timothy DeHof)</author>
-            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
-        </item>
-        <item>
             <title><![CDATA[Cloud Security Best Practices]]></title>
             <link>https://blog.timdehof.dev/blog/cloud-security-best-practices</link>
             <guid>https://blog.timdehof.dev/blog/cloud-security-best-practices</guid>
             <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
             <description><![CDATA[Essential security practices for cloud applications. Learn how to secure your cloud infrastructure, protect data, and implement defense-in-depth strategies.]]></description>
             <content:encoded><![CDATA[Essential security practices for cloud applications. Learn how to secure your cloud infrastructure, protect data, and implement defense-in-depth strategies.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Containerization with Docker]]></title>
+            <link>https://blog.timdehof.dev/blog/containerization-with-docker</link>
+            <guid>https://blog.timdehof.dev/blog/containerization-with-docker</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></description>
+            <content:encoded><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></content:encoded>
             <author>timdehof@gmail.com (Timothy DeHof)</author>
             <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
         </item>
