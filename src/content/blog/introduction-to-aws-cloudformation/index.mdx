@@ -1,0 +1,221 @@
+---
+title: "Introduction to AWS CloudFormation"
+description: "Master infrastructure as code with AWS CloudFormation. Learn how to provision and manage AWS resources using declarative templates."
+date: 2026-03-07
+tags: ["aws", "cloudformation", "iac", "devops", "infrastructure"]
+published: true
+---
+
+# Introduction to AWS CloudFormation
+
+Infrastructure as Code (IaC) is essential for modern cloud development. AWS CloudFormation lets you define your AWS infrastructure in code.
+
+## What is CloudFormation?
+
+CloudFormation is a service that helps you model and set up AWS resources so you can spend less time managing those resources and more time focusing on your applications.
+
+## Key Concepts
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+const stackEvents = [
+  { time: "10:00:00", status: "CREATE_IN_PROGRESS", resource: "AWS::CloudFormation::Stack" },
+  { time: "10:00:05", status: "CREATE_IN_PROGRESS", resource: "AWS::S3::Bucket" },
+  { time: "10:00:10", status: "CREATE_COMPLETE", resource: "AWS::S3::Bucket" },
+  { time: "10:00:15", status: "CREATE_IN_PROGRESS", resource: "AWS::Lambda::Function" },
+  { time: "10:00:25", status: "CREATE_COMPLETE", resource: "AWS::Lambda::Function" },
+  { time: "10:00:30", status: "CREATE_IN_PROGRESS", resource: "AWS::ApiGateway::RestApi" },
+  { time: "10:00:40", status: "CREATE_COMPLETE", resource: "AWS::ApiGateway::RestApi" },
+  { time: "10:00:45", status: "CREATE_COMPLETE", resource: "AWS::CloudFormation::Stack" },
+];
+
+export default function App() {
+  const [currentStep, setCurrentStep] = useState(0);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>CloudFormation Stack Events</h1>
+      <p>Watch how CloudFormation creates resources in order</p>
+      
+      <div style={{ marginTop: "20px" }}>
+        {stackEvents.slice(0, currentStep + 1).map((event, index) => {
+          const borderColor = event.status.includes("COMPLETE") ? "#22c55e" : "#3b82f6";
+          return (
+            <div 
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "8px",
+                padding: "10px",
+                background: "#f9fafb",
+                borderRadius: "6px",
+                borderLeft: "4px solid " + borderColor
+              }}
+            >
+              <span style={{ 
+                fontFamily: "monospace", 
+                fontSize: "12px", 
+                color: "#6b7280",
+                width: "80px"
+              }}>
+                {event.time}
+              </span>
+              <span style={{ 
+                fontWeight: "600",
+                color: borderColor,
+                width: "160px"
+              }}>
+                {event.status.replace("_", " ")}
+              </span>
+              <code style={{ 
+                background: "#e5e7eb", 
+                padding: "4px 8px", 
+                borderRadius: "4px",
+                fontSize: "13px"
+              }}>
+                {event.resource}
+              </code>
+            </div>
+          );
+        })}
+      </div>
+      
+      {currentStep < stackEvents.length - 1 && (
+        <button 
+          onClick={() => setCurrentStep(Math.min(currentStep + 1, stackEvents.length - 1))}
+          style={{
+            marginTop: "20px",
+            padding: "10px 20px",
+            background: "#3b82f6",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer"
+          }}
+        >
+          Next Step →
+        </button>
+      )}
+      
+      {currentStep === stackEvents.length - 1 && (
+        <div style={{ marginTop: "20px", padding: "15px", background: "#dcfce7", borderRadius: "8px" }}>
+          <strong>✓ Stack Created Successfully!</strong> All resources are now available.
+        </div>
+      )}
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Template Anatomy
+
+```yaml
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "My CloudFormation Template"
+
+# Parameters - Customizable values
+Parameters:
+  EnvironmentType:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+
+# Mappings - Lookup tables
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: "ami-12345678"
+    us-west-2:
+      AMI: "ami-87654321"
+
+# Resources - AWS resources to create
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "my-app-${EnvironmentType}"
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentType
+
+# Outputs - Values to expose
+Outputs:
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref MyS3Bucket
+    Export:
+      Name: !Sub "${AWS::StackName}-BucketName"
+```
+
+## Creating a Stack
+
+### Using AWS Console
+
+1. Navigate to CloudFormation in AWS Console
+2. Click "Create stack"
+3. Upload your template (YAML or JSON)
+4. Configure parameters
+5. Review and create
+
+### Using AWS CLI
+
+```bash
+# Create stack
+aws cloudformation create-stack \
+  --stack-name my-stack \
+  --template-body file://template.yaml \
+  --parameters ParameterKey=EnvironmentType,ParameterValue=prod
+
+# Update stack
+aws cloudformation update-stack \
+  --stack-name my-stack \
+  --template-body file://template.yaml \
+  --parameters ParameterKey=EnvironmentType,ParameterValue=prod
+
+# Delete stack
+aws cloudformation delete-stack --stack-name my-stack
+```
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Drift Detection** | Detect manual changes to resources |
+| **Change Sets** | Preview changes before applying |
+| **Stack Sets** | Deploy across multiple accounts/regions |
+| **Nested Stacks** | Modularize complex templates |
+| **Rollbacks** | Automatic rollback on failure |
+
+## Best Practices
+
+1. **Use parameters** - Make templates reusable
+2. **Enable termination protection** - Prevent accidental deletion
+3. **Use IAM roles** - Follow least privilege
+4. **Implement drift detection** - Detect manual changes
+5. **Use outputs** - Share resources between stacks
+
+## CloudFormation vs Terraform
+
+| Aspect | CloudFormation | Terraform |
+|--------|----------------|-----------|
+| Provider | AWS only | Multi-cloud |
+| State | AWS-managed | User-managed |
+| Syntax | YAML/JSON | HCL |
+| Updates | Direct | Plan/Apply |
+
+## Conclusion
+
+CloudFormation is essential for infrastructure as code on AWS. It provides a declarative way to manage your AWS resources with built-in rollback and drift detection.

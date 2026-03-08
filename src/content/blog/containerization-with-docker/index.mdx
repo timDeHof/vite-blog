@@ -1,0 +1,226 @@
+---
+title: "Containerization with Docker"
+description: "Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications."
+date: 2026-03-07
+tags: ["cloud", "docker", "containers", "devops", "deployment"]
+published: true
+---
+
+# Containerization with Docker
+
+Docker has revolutionized how we build, ship, and run applications. This guide covers Docker fundamentals essential for cloud developers.
+
+## What is Docker?
+
+Docker is a platform for developing, shipping, and running applications in containers. Containers are lightweight and include everything needed to run the software.
+
+## Docker vs Virtual Machines
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+const comparison = [
+  { aspect: "Size", vm: "GBs", container: "MBs", winner: "container" },
+  { aspect: "Startup Time", vm: "Minutes", container: "Seconds", winner: "container" },
+  { aspect: "Isolation", vm: "Full", container: "Process", winner: "vm" },
+  { aspect: "Portability", vm: "Low", container: "High", winner: "container" },
+  { aspect: "Overhead", vm: "High", container: "Low", winner: "container" },
+  { aspect: "Security", vm: "Stronger", container: "Good", winner: "vm" },
+];
+
+export default function App() {
+  const [selected, setSelected] = useState<number | null>(null);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>Docker vs Virtual Machines</h1>
+      <p>Click on each comparison to learn more</p>
+      
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "15px", marginTop: "20px" }}>
+        {comparison.map((comp, index) => (
+          <div
+            key={comp.aspect}
+            onClick={() => setSelected(selected === index ? null : index)}
+            style={{
+              padding: "15px",
+              background: selected === index ? "#eff6ff" : "#f9fafb",
+              borderRadius: "8px",
+              cursor: "pointer",
+              border: selected === index ? "2px solid #3b82f6" : "2px solid transparent"
+            }}
+          >
+            <div style={{ fontWeight: "bold", fontSize: "16px" }}>{comp.aspect}</div>
+            
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px" }}>
+              <div style={{ textAlign: "center", flex: 1 }}>
+                <div style={{ fontSize: "12px", color: "#6b7280" }}>VM</div>
+                <div style={{ fontWeight: "bold" }}>{comp.vm}</div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", padding: "0 10px" }}>
+                {comp.winner === "container" ? "→" : "←"}
+              </div>
+              <div style={{ textAlign: "center", flex: 1 }}>
+                <div style={{ fontSize: "12px", color: "#6b7280" }}>Container</div>
+                <div style={{ fontWeight: "bold" }}>{comp.container}</div>
+              </div>
+            </div>
+            
+            {selected === index && (
+              <div style={{ marginTop: "10px", padding: "8px", background: "#dcfce7", borderRadius: "4px", fontSize: "13px" }}>
+                <strong>{comp.winner === "container" ? "Containers" : "VMs"}</strong> win for {comp.aspect.toLowerCase()}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      
+      <div style={{ marginTop: "25px", padding: "15px", background: "#fef3c7", borderRadius: "8px" }}>
+        <strong>Key Insight:</strong> Containers share the OS kernel, making them much lighter than VMs while still providing isolation.
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Your First Dockerfile
+
+```dockerfile
+# Use Node.js as base image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application code
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start the application
+CMD ["node", "index.js"]
+```
+
+## Essential Docker Commands
+
+| Command | Description |
+|---------|-------------|
+| `docker build` | Build image from Dockerfile |
+| `docker run` | Run a container |
+| `docker ps` | List running containers |
+| `docker images` | List local images |
+| `docker logs` | View container logs |
+| `docker exec` | Execute command in container |
+
+## Docker Compose
+
+For multi-container applications:
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+## Best Practices
+
+### 1. Use Multi-stage Builds
+
+```dockerfile
+# Build stage
+FROM node:18 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+CMD ["node", "dist/index.js"]
+```
+
+### 2. Use .dockerignore
+
+```
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+.env
+dist
+coverage
+```
+
+### 3. Optimize Layer Caching
+
+```dockerfile
+# Copy dependencies first (less frequent changes)
+COPY package*.json ./
+RUN npm ci
+
+# Copy source code last (more frequent changes)
+COPY . .
+```
+
+### 4. Use Specific Tags
+
+```dockerfile
+# ❌ Don't use :latest
+FROM node:18
+
+# ✅ Use specific versions
+FROM node:18.17.0-alpine3.18
+```
+
+## Security Best Practices
+
+1. **Don't run as root** - Use USER directive
+2. **Scan for vulnerabilities** - Use docker scan
+3. **Read-only containers** - Use --read-only flag
+4. **Limit capabilities** - Drop unnecessary Linux capabilities
+
+```dockerfile
+# Run as non-root user
+RUN addgroup -g 1001 appgroup && \\
+    adduser -u 1001 -G appgroup -D appuser
+USER appuser
+```
+
+## Conclusion
+
+Docker is essential for modern cloud development. Containers provide consistency across environments, efficient resource usage, and easy deployment to any cloud platform.

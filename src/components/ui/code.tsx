@@ -4,7 +4,7 @@ import CopyButton from "../copy-button";
 interface CodeElementProps {
 	children: string | string[];
 	className?: string;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 interface CodeBlockProps

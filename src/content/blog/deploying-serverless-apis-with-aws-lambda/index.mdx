@@ -1,0 +1,100 @@
+---
+title: "Deploying Serverless APIs with AWS Lambda"
+description: "Learn how to build and deploy scalable serverless APIs using AWS Lambda and API Gateway. Perfect for developers looking to reduce infrastructure costs and increase scalability."
+date: 2026-03-06
+tags: ["aws", "serverless", "lambda", "api-gateway", "cloud"]
+published: true
+---
+
+# Deploying Serverless APIs with AWS Lambda
+
+Serverless computing has revolutionized how we build and deploy applications. In this guide, we'll explore how to create scalable APIs using AWS Lambda and API Gateway.
+
+## What is Serverless?
+
+Serverless doesn't mean "no servers" - it means you don't manage them. AWS handles the infrastructure, scaling, and maintenance while you focus on writing code.
+
+## Key Benefits
+
+- **Pay only for what you use** - No idle servers
+- **Automatic scaling** - Handles thousands of requests
+- **Reduced operational overhead** - AWS manages infrastructure
+- **Faster time to market** - Focus on business logic
+
+## Building Your First Serverless API
+
+Here's a simple example of an AWS Lambda function:
+
+```typescript
+import { APIGatewayProxyHandler } from 'aws-lambda';
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message: 'Hello from AWS Lambda!',
+      timestamp: new Date().toISOString(),
+    }),
+  };
+};
+```
+
+## Interactive Example
+
+Try modifying this React component to see how serverless concepts work:
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState, useEffect } from "react";
+
+export default function App() {
+  const [message, setMessage] = useState("Loading...");
+  
+  useEffect(() => {
+    // Simulating an API call to AWS Lambda
+    setTimeout(() => {
+      setMessage("Hello from Serverless AWS!");
+    }, 1000);
+  }, []);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>Serverless API Demo</h1>
+      <p style={{ fontSize: "18px", color: "#333" }}>
+        {message}
+      </p>
+      <div style={{ marginTop: "20px", padding: "10px", background: "#f5f5f5", borderRadius: "8px" }}>
+        <strong>Status:</strong> Connected to Lambda Function URL
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+    showLineNumbers: true,
+  }}
+/>
+
+## AWS Services Used
+
+| Service | Purpose |
+|---------|---------|
+| AWS Lambda | Run code without servers |
+| API Gateway | Create REST APIs |
+| Lambda Function URLs | Simple HTTP endpoints |
+| CloudWatch | Monitoring and logging |
+
+## Deployment Steps
+
+1. **Write your Lambda function** in Node.js, Python, or other supported languages
+2. **Create an API Gateway** to expose your function as HTTP endpoints
+3. **Configure CORS** to allow browser requests
+4. **Set up monitoring** with CloudWatch
+5. **Deploy to production** with proper IAM roles
+
+## Conclusion
+
+Serverless APIs with AWS Lambda offer an excellent way to build scalable applications without worrying about infrastructure management. Start small, iterate quickly, and scale infinitely!

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Tim's Blog</title>
+        <link>https://blog.timdehof.dev</link>
+        <description>A blog about my life and software development</description>
+        <lastBuildDate>Sun, 08 Mar 2026 18:03:21 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Feed for Node.js</generator>
+        <language>en</language>
+        <image>
+            <title>Tim's Blog</title>
+            <url>https://blog.timdehof.dev/avatar-tim.png</url>
+            <link>https://blog.timdehof.dev</link>
+        </image>
+        <copyright>All rights reserved 2026, Timothy DeHof</copyright>
+        <atom:link href="https://blog.timdehof.dev/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Building a CI/CD Pipeline with AWS CodePipeline]]></title>
+            <link>https://blog.timdehof.dev/blog/building-a-cicd-pipeline-with-aws-codepipeline</link>
+            <guid>https://blog.timdehof.dev/blog/building-a-cicd-pipeline-with-aws-codepipeline</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to build a complete CI/CD pipeline using AWS CodePipeline. Automate your builds, tests, and deployments with this comprehensive guide.]]></description>
+            <content:encoded><![CDATA[Learn how to build a complete CI/CD pipeline using AWS CodePipeline. Automate your builds, tests, and deployments with this comprehensive guide.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Cloud Computing Fundamentals: IaaS, PaaS, and SaaS Explained]]></title>
+            <link>https://blog.timdehof.dev/blog/cloud-computing-fundamentals-iaas-paas-saas</link>
+            <guid>https://blog.timdehof.dev/blog/cloud-computing-fundamentals-iaas-paas-saas</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Master the core concepts of cloud computing. Understand the differences between Infrastructure as a Service, Platform as a Service, and Software as a Service.]]></description>
+            <content:encoded><![CDATA[Master the core concepts of cloud computing. Understand the differences between Infrastructure as a Service, Platform as a Service, and Software as a Service.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Containerization with Docker]]></title>
+            <link>https://blog.timdehof.dev/blog/containerization-with-docker</link>
+            <guid>https://blog.timdehof.dev/blog/containerization-with-docker</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></description>
+            <content:encoded><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Cloud Security Best Practices]]></title>
+            <link>https://blog.timdehof.dev/blog/cloud-security-best-practices</link>
+            <guid>https://blog.timdehof.dev/blog/cloud-security-best-practices</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Essential security practices for cloud applications. Learn how to secure your cloud infrastructure, protect data, and implement defense-in-depth strategies.]]></description>
+            <content:encoded><![CDATA[Essential security practices for cloud applications. Learn how to secure your cloud infrastructure, protect data, and implement defense-in-depth strategies.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Cloud Networking Fundamentals]]></title>
+            <link>https://blog.timdehof.dev/blog/cloud-networking-fundamentals</link>
+            <guid>https://blog.timdehof.dev/blog/cloud-networking-fundamentals</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures.]]></description>
+            <content:encoded><![CDATA[Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Getting Started with AWS SAM]]></title>
+            <link>https://blog.timdehof.dev/blog/getting-started-with-aws-sam</link>
+            <guid>https://blog.timdehof.dev/blog/getting-started-with-aws-sam</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to use AWS Serverless Application Model (SAM) to build and deploy serverless applications quickly. Simplify your Lambda deployments with SAM.]]></description>
+            <content:encoded><![CDATA[Learn how to use AWS Serverless Application Model (SAM) to build and deploy serverless applications quickly. Simplify your Lambda deployments with SAM.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Introduction to AWS CloudFormation]]></title>
+            <link>https://blog.timdehof.dev/blog/introduction-to-aws-cloudformation</link>
+            <guid>https://blog.timdehof.dev/blog/introduction-to-aws-cloudformation</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Master infrastructure as code with AWS CloudFormation. Learn how to provision and manage AWS resources using declarative templates.]]></description>
+            <content:encoded><![CDATA[Master infrastructure as code with AWS CloudFormation. Learn how to provision and manage AWS resources using declarative templates.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Microservices Architecture in the Cloud]]></title>
+            <link>https://blog.timdehof.dev/blog/microservices-architecture-in-the-cloud</link>
+            <guid>https://blog.timdehof.dev/blog/microservices-architecture-in-the-cloud</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to design and implement microservices architecture. Understand service decomposition, communication patterns, and best practices for cloud-native applications.]]></description>
+            <content:encoded><![CDATA[Learn how to design and implement microservices architecture. Understand service decomposition, communication patterns, and best practices for cloud-native applications.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Serverless Image Processing with AWS Lambda]]></title>
+            <link>https://blog.timdehof.dev/blog/serverless-image-processing-with-aws-lambda</link>
+            <guid>https://blog.timdehof.dev/blog/serverless-image-processing-with-aws-lambda</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to build a serverless image processing pipeline using AWS Lambda and Amazon S3. Resize, compress, and transform images automatically.]]></description>
+            <content:encoded><![CDATA[Learn how to build a serverless image processing pipeline using AWS Lambda and Amazon S3. Resize, compress, and transform images automatically.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Building a REST API with AWS DynamoDB]]></title>
+            <link>https://blog.timdehof.dev/blog/building-a-rest-api-with-aws-dynamodb</link>
+            <guid>https://blog.timdehof.dev/blog/building-a-rest-api-with-aws-dynamodb</guid>
+            <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to build scalable REST APIs using AWS DynamoDB as your database. Covering data modeling, CRUD operations, and best practices for cloud-native applications.]]></description>
+            <content:encoded><![CDATA[Learn how to build scalable REST APIs using AWS DynamoDB as your database. Covering data modeling, CRUD operations, and best practices for cloud-native applications.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Deploying Serverless APIs with AWS Lambda]]></title>
+            <link>https://blog.timdehof.dev/blog/deploying-serverless-apis-with-aws-lambda</link>
+            <guid>https://blog.timdehof.dev/blog/deploying-serverless-apis-with-aws-lambda</guid>
+            <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to build and deploy scalable serverless APIs using AWS Lambda and API Gateway. Perfect for developers looking to reduce infrastructure costs and increase scalability.]]></description>
+            <content:encoded><![CDATA[Learn how to build and deploy scalable serverless APIs using AWS Lambda and API Gateway. Perfect for developers looking to reduce infrastructure costs and increase scalability.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Introduction to AWS IAM for Developers]]></title>
+            <link>https://blog.timdehof.dev/blog/introduction-to-aws-iam-for-developers</link>
+            <guid>https://blog.timdehof.dev/blog/introduction-to-aws-iam-for-developers</guid>
+            <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Master AWS Identity and Access Management (IAM) for secure cloud applications. Learn about users, roles, policies, and best practices for cloud security.]]></description>
+            <content:encoded><![CDATA[Master AWS Identity and Access Management (IAM) for secure cloud applications. Learn about users, roles, policies, and best practices for cloud security.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[S3 + CloudFront: Static Site Hosting at the Edge]]></title>
+            <link>https://blog.timdehof.dev/blog/s3-cloudfront-static-site-hosting</link>
+            <guid>https://blog.timdehof.dev/blog/s3-cloudfront-static-site-hosting</guid>
+            <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to host high-performance static websites using AWS S3 and CloudFront CDN. Achieve global scalability, low latency, and cost-effective delivery.]]></description>
+            <content:encoded><![CDATA[Learn how to host high-performance static websites using AWS S3 and CloudFront CDN. Achieve global scalability, low latency, and cost-effective delivery.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Lets see what we can do with rehype pretty code]]></title>
+            <link>https://blog.timdehof.dev/blog/code-blocks</link>
+            <guid>https://blog.timdehof.dev/blog/code-blocks</guid>
+            <pubDate>Mon, 04 Mar 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Syntax highlighting, line numbers, line highlights, word highlights]]></description>
+            <content:encoded><![CDATA[Syntax highlighting, line numbers, line highlights, word highlights]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Github Flavoured Markdown CheatSheet]]></title>
+            <link>https://blog.timdehof.dev/blog/github-markdown</link>
+            <guid>https://blog.timdehof.dev/blog/github-markdown</guid>
+            <pubDate>Sun, 03 Mar 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[A markdown cheat sheet for GFM]]></description>
+            <content:encoded><![CDATA[A markdown cheat sheet for GFM]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[The Mysterious Case of the Disappearing Props]]></title>
+            <link>https://blog.timdehof.dev/blog/disappearing-props</link>
+            <guid>https://blog.timdehof.dev/blog/disappearing-props</guid>
+            <pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Join us on a humorous detective journey to solve the mystery of disappearing props in a React application. Learn troubleshooting tips and best practices to prevent your props from vanishing into thin air.]]></description>
+            <content:encoded><![CDATA[Join us on a humorous detective journey to solve the mystery of disappearing props in a React application. Learn troubleshooting tips and best practices to prevent your props from vanishing into thin air.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Prop Drilling: The Horror Movie - A Tale of React Components]]></title>
+            <link>https://blog.timdehof.dev/blog/prop-drilling</link>
+            <guid>https://blog.timdehof.dev/blog/prop-drilling</guid>
+            <pubDate>Wed, 28 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Step into a spine-chilling narrative where React components face the dread of prop drilling. Discover how using Context API or Redux can save your components from the depths of despair in this humorous take on a common React challenge.]]></description>
+            <content:encoded><![CDATA[Step into a spine-chilling narrative where React components face the dread of prop drilling. Discover how using Context API or Redux can save your components from the depths of despair in this humorous take on a common React challenge.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Debugging React with Wizardry and Magic: A Developer's Spellbook]]></title>
+            <link>https://blog.timdehof.dev/blog/react-debug-magic</link>
+            <guid>https://blog.timdehof.dev/blog/react-debug-magic</guid>
+            <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Enter the mystical world of debugging React applications with a touch of humor. Learn spells and incantations to banish bugs and optimize your code, all while navigating the enchanting forest of React development.]]></description>
+            <content:encoded><![CDATA[Enter the mystical world of debugging React applications with a touch of humor. Learn spells and incantations to banish bugs and optimize your code, all while navigating the enchanting forest of React development.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[React Hooks: Fishing for Components in the React Sea]]></title>
+            <link>https://blog.timdehof.dev/blog/react-hooks</link>
+            <guid>https://blog.timdehof.dev/blog/react-hooks</guid>
+            <pubDate>Mon, 26 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Explore the amusing analogy of React Hooks as fishing tools designed to catch components in the vast sea of React development. Learn how to use useState, useEffect, and useContext to manage your catch effectively.]]></description>
+            <content:encoded><![CDATA[Explore the amusing analogy of React Hooks as fishing tools designed to catch components in the vast sea of React development. Learn how to use useState, useEffect, and useContext to manage your catch effectively.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[The Lifecycle of a React Component, As Told by Cats]]></title>
+            <link>https://blog.timdehof.dev/blog/react-lifecycle-cats</link>
+            <guid>https://blog.timdehof.dev/blog/react-lifecycle-cats</guid>
+            <pubDate>Sun, 25 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[A whimsical exploration of the React component lifecycle, with each stage humorously explained through the behavior of cats. Perfect for developers looking to understand lifecycle methods in a more relatable and entertaining way.]]></description>
+            <content:encoded><![CDATA[A whimsical exploration of the React component lifecycle, with each stage humorously explained through the behavior of cats. Perfect for developers looking to understand lifecycle methods in a more relatable and entertaining way.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[React State Management: An Epic Tale of Love, Loss, and Redux]]></title>
+            <link>https://blog.timdehof.dev/blog/react-state-management</link>
+            <guid>https://blog.timdehof.dev/blog/react-state-management</guid>
+            <pubDate>Sat, 24 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Embark on a dramatic journey through the realm of React state management. Witness the love triangles, betrayals, and heartaches that components face as they navigate the complex world of state management, with a special appearance by Redux.]]></description>
+            <content:encoded><![CDATA[Embark on a dramatic journey through the realm of React state management. Witness the love triangles, betrayals, and heartaches that components face as they navigate the complex world of state management, with a special appearance by Redux.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[How to Summon a React Component: A Beginner's Guide]]></title>
+            <link>https://blog.timdehof.dev/blog/summon-component</link>
+            <guid>https://blog.timdehof.dev/blog/summon-component</guid>
+            <pubDate>Fri, 23 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Dive into the mystical world of React and learn the incantations needed to summon your very first React component with humor and ease.]]></description>
+            <content:encoded><![CDATA[Dive into the mystical world of React and learn the incantations needed to summon your very first React component with humor and ease.]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[ReelWatch - Movie Watchlist]]></title>
+            <link>https://blog.timdehof.dev/blog/reelwatch-movie-watchlist</link>
+            <guid>https://blog.timdehof.dev/blog/reelwatch-movie-watchlist</guid>
+            <pubDate>Mon, 12 Jun 2023 01:55:51 GMT</pubDate>
+            <description><![CDATA[A movie watchlist app built with Appwrite Cloud and Next.js]]></description>
+            <content:encoded><![CDATA[A movie watchlist app built with Appwrite Cloud and Next.js]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Unraveling the Mystery of an Empty API Response in Axios - A Debugging Adventure]]></title>
+            <link>https://blog.timdehof.dev/blog/unraveling-the-mystery-of-an-empty-api-response-in-axios-a-debugging-adventure</link>
+            <guid>https://blog.timdehof.dev/blog/unraveling-the-mystery-of-an-empty-api-response-in-axios-a-debugging-adventure</guid>
+            <pubDate>Wed, 08 Mar 2023 03:26:38 GMT</pubDate>
+            <description><![CDATA[Learn how to debug an empty API response in Axios]]></description>
+            <content:encoded><![CDATA[Learn how to debug an empty API response in Axios]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Unleash the Power of Java - A JavaScript Developer's Guide to Best Practices in Java Development]]></title>
+            <link>https://blog.timdehof.dev/blog/unleash-the-power-of-java---a-javascript-developers-guide-to-best-practices-in-java-development</link>
+            <guid>https://blog.timdehof.dev/blog/unleash-the-power-of-java---a-javascript-developers-guide-to-best-practices-in-java-development</guid>
+            <pubDate>Sun, 05 Feb 2023 15:51:29 GMT</pubDate>
+            <description><![CDATA[Learn how to unleash the power of Java in JavaScript development]]></description>
+            <content:encoded><![CDATA[Learn how to unleash the power of Java in JavaScript development]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[From Mechanical Design Engineer to Fullstack Developer - My Journey and Lessons Learned along the way]]></title>
+            <link>https://blog.timdehof.dev/blog/from-mechanical-design-engineer-to-fullstack-developer-my-journey-and-lessons-learned</link>
+            <guid>https://blog.timdehof.dev/blog/from-mechanical-design-engineer-to-fullstack-developer-my-journey-and-lessons-learned</guid>
+            <pubDate>Thu, 22 Dec 2022 19:43:40 GMT</pubDate>
+            <description><![CDATA[Learn about my journey from mechanical design engineer to fullstack developer]]></description>
+            <content:encoded><![CDATA[Learn about my journey from mechanical design engineer to fullstack developer]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[How to Deploy the Face Recognition API for Free with Render Alternative to Heroku]]></title>
+            <link>https://blog.timdehof.dev/blog/how-to-deploy-the-face-recognition-api-for-free-with-render-alternative-to-heroku</link>
+            <guid>https://blog.timdehof.dev/blog/how-to-deploy-the-face-recognition-api-for-free-with-render-alternative-to-heroku</guid>
+            <pubDate>Tue, 20 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to deploy the Face Recognition API for free with Render alternative to Heroku]]></description>
+            <content:encoded><![CDATA[Learn how to deploy the Face Recognition API for free with Render alternative to Heroku]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[The Power of a Growth Mindset in Software Development - How to Embrace Challenges and Advance Your Career]]></title>
+            <link>https://blog.timdehof.dev/blog/the-power-of-a-growth-mindset-in-software-development-how-to-embrace-challenges-and-advance-your-career</link>
+            <guid>https://blog.timdehof.dev/blog/the-power-of-a-growth-mindset-in-software-development-how-to-embrace-challenges-and-advance-your-career</guid>
+            <pubDate>Tue, 13 Dec 2022 02:53:49 GMT</pubDate>
+            <description><![CDATA[A guide to help you develop and maintain a growth mindset in software development]]></description>
+            <content:encoded><![CDATA[A guide to help you develop and maintain a growth mindset in software development]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[A Roadmap for Transferring Skills from Mechanical Design Engineering to Fullstack Development]]></title>
+            <link>https://blog.timdehof.dev/blog/roadmap-for-transferring-skills-from-mechanical-design-engineering-to-fullstack-development</link>
+            <guid>https://blog.timdehof.dev/blog/roadmap-for-transferring-skills-from-mechanical-design-engineering-to-fullstack-development</guid>
+            <pubDate>Mon, 12 Dec 2022 00:29:22 GMT</pubDate>
+            <description><![CDATA[A guide to help you transfer your skills and achieve success in the field of fullstack development]]></description>
+            <content:encoded><![CDATA[A guide to help you transfer your skills and achieve success in the field of fullstack development]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Becoming a Self-Learner - Tips and Strategies for Personal and Professional Growth]]></title>
+            <link>https://blog.timdehof.dev/blog/becoming-a-self-learner-tips-and-strategies-for-personal-and-professional-growth</link>
+            <guid>https://blog.timdehof.dev/blog/becoming-a-self-learner-tips-and-strategies-for-personal-and-professional-growth</guid>
+            <pubDate>Sat, 10 Dec 2022 15:01:28 GMT</pubDate>
+            <description><![CDATA[A guide to help you unlock your potential and achieve your goals]]></description>
+            <content:encoded><![CDATA[A guide to help you unlock your potential and achieve your goals]]></content:encoded>
+            <author>timdehof@gmail.com (Timothy DeHof)</author>
+            <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
+        </item>
+    </channel>
+</rss>

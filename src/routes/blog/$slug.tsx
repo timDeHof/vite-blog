@@ -1,10 +1,11 @@
-import { posts } from "@/.velite";  // Adjust this import path based on your project structure
-import { MDXContent } from "@/components/mdx-components"; // Adjust component import
-import "@/styles/mdx.css";
-import { siteConfig } from "@/config/site";
-import { Tag } from "@/components/tag";
+import { posts } from "#site/content"; // Adjust this import path based on your project structure
 import CoverImage from "@/components/cover-image";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { MDXContent } from "@/components/mdx-components"; // Adjust component import
+import { Tag } from "@/components/tag";
+import { siteConfig } from "@/config/site";
+import { formatDate, getRelatedPosts } from "@/lib/utils";
+import "@/styles/mdx.css";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 
@@ -16,23 +17,32 @@ export const Route = createFileRoute('/blog/$slug')({
     if (!post || !post.published) {
       return null;
     }
-    return post;
+    const relatedPosts = getRelatedPosts(post, posts, 3);
+    return { post, relatedPosts };
   },
 });
 
+/**
+ * Renders a blog post page including document metadata (title, description, Open Graph/Twitter tags), the cover image, title, tags, optional description, MDX-rendered body, and a related-posts sidebar.
+ *
+ * @returns The page's JSX content, or `null` when loader data is not available.
+ */
 function BlogPost() {
   const navigate = useNavigate();
-  const post = Route.useLoaderData();
+  const data = Route.useLoaderData() as { post: typeof posts[0]; relatedPosts: typeof posts } | null;
+
   useEffect(() => {
-    if (!post) {
+    if (!data) {
       navigate({ to: '/blog', search: {page: '1'} });
       return;
     }
-  }, [post, navigate]);
+  }, [data, navigate]);
 
-  if (!post) {
+  if (!data) {
     return null;
   }
+
+  const { post, relatedPosts } = data;
 
   const ogSearchParams = new URLSearchParams();
   ogSearchParams.set("title", post.title);
@@ -53,20 +63,49 @@ function BlogPost() {
 				<meta name='twitter:image' content={ogImageUrl} />
 			</Helmet>
 
-			{post.cover && <CoverImage src={post.cover.src} alt={post.title} />}
-			<article className='container py-6 prose dark:prose-invert max-w-3xl mx-auto'>
-				<h1 className='mb-2'>{post.title}</h1>
-				<div className='flex gap-2 mb-2'>
-					{post.tags?.map((tag: string) => <Tag key={tag} tag={tag} />)}
+			<div className='container max-w-6xl py-6'>
+				<div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
+					<article className='lg:col-span-3 prose dark:prose-invert'>
+						{post.cover && <CoverImage src={post.cover.src} alt={post.title} />}
+						<h1 className='mb-2'>{post.title}</h1>
+						<div className='flex gap-2 mb-2'>
+							{post.tags?.map((tag: string) => <Tag key={tag} tag={tag} />)}
+						</div>
+						{post.description && (
+							<p className='text-xl mt-0 text-muted-foreground'>
+								{post.description}
+							</p>
+						)}
+						<hr className='my-4' />
+						<MDXContent code={post.body} />
+					</article>
+					<aside className='hidden lg:block lg:col-span-1'>
+						<div className='sticky top-20 space-y-6'>
+							<div>
+								<h3 className='font-semibold text-lg mb-3'>Related Posts</h3>
+								<ul className='space-y-3'>
+									{relatedPosts.map((relatedPost) => (
+										<li key={relatedPost.slug}>
+											<Link
+												to='/blog/$slug'
+												params={{ slug: relatedPost.slugAsParams || relatedPost.slug.split('/').pop() || '' }}
+												className='block group'
+											>
+												<span className='font-medium group-hover:text-primary transition-colors line-clamp-2'>
+													{relatedPost.title}
+												</span>
+												<time className='text-sm text-muted-foreground'>
+													{formatDate(relatedPost.date)}
+												</time>
+											</Link>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					</aside>
 				</div>
-				{post.description && (
-					<p className='text-xl mt-0 text-muted-foreground'>
-						{post.description}
-					</p>
-				)}
-				<hr className='my-4' />
-				<MDXContent code={post.body} />
-			</article>
+			</div>
 		</>
 	);
 }

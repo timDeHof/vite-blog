@@ -1,0 +1,187 @@
+---
+title: "Cloud Computing Fundamentals: IaaS, PaaS, and SaaS Explained"
+description: "Master the core concepts of cloud computing. Understand the differences between Infrastructure as a Service, Platform as a Service, and Software as a Service."
+date: 2026-03-07
+tags: ["cloud", "iaas", "paas", "saas", "fundamentals"]
+published: true
+---
+
+# Cloud Computing Fundamentals: IaaS, PaaS, and SaaS Explained
+
+Understanding cloud service models is essential for any cloud developer. In this guide, we'll explore the three main cloud service models and help you choose the right one for your needs.
+
+## The Three Cloud Service Models
+
+Cloud computing offers three main service models, each providing different levels of control and management.
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+interface ServiceModel {
+  name: string;
+  shortName: string;
+  description: string;
+  userControls: string[];
+  providerManages: string[];
+  examples: string[];
+}
+
+const models: ServiceModel[] = [
+  {
+    name: "Software as a Service",
+    shortName: "SaaS",
+    description: "Complete applications delivered over the internet",
+    userControls: "Just use the application",
+    providerManages: "Everything - servers, storage, OS, middleware, runtime, data",
+    examples: ["Gmail", "Salesforce", "Microsoft 365", "Slack"]
+  },
+  {
+    name: "Platform as a Service",
+    shortName: "PaaS",
+    description: "Development platforms for building applications",
+    userControls: "Applications and data",
+    providerManages: "Servers, storage, OS, middleware, runtime",
+    examples: ["Heroku", "AWS Elastic Beanstalk", "Google App Engine", "Azure App Service"]
+  },
+  {
+    name: "Infrastructure as a Service",
+    shortName: "IaaS",
+    description: "Virtualized computing resources",
+    userControls: "OS, storage, applications",
+    providerManages: "Physical servers, storage, networking",
+    examples: ["AWS EC2", "Google Compute Engine", "Azure Virtual Machines", "DigitalOcean"]
+  },
+];
+
+export default function App() {
+  const [selectedModel, setSelectedModel] = useState<number>(1);
+  
+  const model = models[selectedModel];
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>Cloud Service Models</h1>
+      <p>Click each model to learn more about what you manage vs. what the provider manages</p>
+      
+      <div style={{ display: "flex", gap: "10px", marginTop: "20px", flexWrap: "wrap" }}>
+        {models.map((m, index) => (
+          <button
+            key={m.shortName}
+            onClick={() => setSelectedModel(index)}
+            style={{
+              padding: "15px 25px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              background: selectedModel === index ? "#3b82f6" : "#e5e7eb",
+              color: selectedModel === index ? "white" : "#374151",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer"
+            }}
+          >
+            {m.shortName}
+          </button>
+        ))}
+      </div>
+      
+      <div style={{ marginTop: "30px", padding: "20px", background: "#f9fafb", borderRadius: "12px" }}>
+        <h2 style={{ marginTop: 0 }}>{model.name}</h2>
+        <p style={{ fontSize: "16px", color: "#6b7280" }}>{model.description}</p>
+        
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "20px" }}>
+          <div style={{ padding: "15px", background: "#fee2e2", borderRadius: "8px" }}>
+            <h3 style={{ marginTop: 0, color: "#dc2626" }}>You Manage</h3>
+            <p style={{ fontSize: "14px" }}>{model.userControls}</p>
+          </div>
+          <div style={{ padding: "15px", background: "#dcfce7", borderRadius: "8px" }}>
+            <h3 style={{ marginTop: 0, color: "#16a34a" }}>Provider Manages</h3>
+            <p style={{ fontSize: "14px" }}>{model.providerManages}</p>
+          </div>
+        </div>
+        
+        <div style={{ marginTop: "20px" }}>
+          <h4>Examples:</h4>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {model.examples.map((ex) => (
+              <span key={ex} style={{ 
+                padding: "6px 12px", 
+                background: "#e0e7ff", 
+                borderRadius: "20px",
+                fontSize: "14px"
+              }}>
+                {ex}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Understanding Each Model
+
+### Infrastructure as a Service (IaaS)
+
+IaaS provides the fundamental building blocks of cloud computing. You rent virtual machines, storage, and networking.
+
+**Best for:**
+- Complete control over infrastructure
+- Migrating existing applications to the cloud
+- Custom infrastructure requirements
+
+### Platform as a Service (PaaS)
+
+PaaS provides a development and deployment environment in the cloud. You focus on code, not infrastructure.
+
+**Best for:**
+- Rapid application development
+- Teams without infrastructure expertise
+- Continuous deployment workflows
+
+### Software as a Service (SaaS)
+
+SaaS delivers complete applications over the internet. No installation required - just use the service.
+
+**Best for:**
+- Ready-to-use business applications
+- Minimal technical requirements
+- Short-term projects
+
+## Comparison Table
+
+| Aspect | IaaS | PaaS | SaaS |
+|--------|------|------|------|
+| Control | Most | Moderate | Least |
+| Setup Time | Hours | Minutes | Instant |
+| Maintenance | High | Low | None |
+| Scalability | Manual/Auto | Auto | Auto |
+| Cost | Pay for usage | Pay for usage | Subscription |
+
+## Which Should You Choose?
+
+**Choose IaaS when:**
+- You need full control over your infrastructure
+- You have dedicated DevOps resources
+- You need to run custom software
+
+**Choose PaaS when:**
+- You want to focus on code, not servers
+- You need to ship quickly
+- You're building new applications
+
+**Choose SaaS when:**
+- You need a ready-to-use solution
+- You have limited technical resources
+- You're solving business problems
+
+## Conclusion
+
+Understanding these cloud service models helps you make informed decisions about cloud architecture. Most modern applications use a combination of all three - for example, running on PaaS while using IaaS for specific infrastructure needs.

@@ -1,0 +1,275 @@
+---
+title: "Cloud Networking Fundamentals"
+description: "Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures."
+date: 2026-03-07
+tags: ["cloud", "networking", "vpc", "dns", "load-balancing"]
+published: true
+---
+
+# Cloud Networking Fundamentals
+
+Understanding cloud networking is essential for building secure, scalable applications. This guide covers the core networking concepts used in cloud environments.
+
+## Virtual Private Cloud (VPC)
+
+A VPC is an isolated virtual network within the cloud. It gives you complete control over your network environment.
+
+<Sandpack 
+  template="react-ts"
+  files={{
+    '/App.tsx': `import { useState } from "react";
+
+const vpcComponents = [
+  { name: "Internet Gateway", type: "gateway", layer: "edge", color: "#ef4444" },
+  { name: "NAT Gateway", type: "nat", layer: "public", color: "#f59e0b" },
+  { name: "Load Balancer", type: "lb", layer: "public", color: "#8b5cf6" },
+  { name: "Public Subnet", type: "subnet", layer: "public", color: "#3b82f6" },
+  { name: "Private Subnet", type: "subnet", layer: "private", color: "#10b981" },
+  { name: "Database Subnet", type: "subnet", layer: "private", color: "#06b6d4" },
+];
+
+export default function App() {
+  const [selected, setSelected] = useState<string | null>(null);
+  
+  return (
+    <div style={{ padding: "20px", fontFamily: "system-ui" }}>
+      <h1>Cloud VPC Architecture</h1>
+      <p>Click on each component to learn about its role</p>
+      
+      <div style={{ 
+        marginTop: "20px", 
+        padding: "20px", 
+        background: "#1f2937", 
+        borderRadius: "12px",
+        minHeight: "300px"
+      }}>
+        {/* Internet */}
+        <div style={{ 
+          textAlign: "center", 
+          color: "white", 
+          padding: "10px",
+          borderBottom: "2px dashed #4b5563"
+        }}>
+          Internet
+        </div>
+        
+        {/* Edge Layer */}
+        <div style={{ display: "flex", justifyContent: "center", gap: "15px", marginTop: "15px" }}>
+          <div 
+            onClick={() => setSelected("igw")}
+            style={{
+              padding: "10px 15px",
+              background: "#ef4444",
+              color: "white",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px"
+            }}
+          >
+            Internet Gateway
+          </div>
+        </div>
+        
+        {/* Public Layer */}
+        <div style={{ display: "flex", justifyContent: "center", gap: "15px", marginTop: "15px" }}>
+          <div 
+            onClick={() => setSelected("nat")}
+            style={{
+              padding: "10px 15px",
+              background: "#f59e0b",
+              color: "white",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px"
+            }}
+          >
+            NAT Gateway
+          </div>
+          <div 
+            onClick={() => setSelected("lb")}
+            style={{
+              padding: "10px 15px",
+              background: "#8b5cf6",
+              color: "white",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px"
+            }}
+          >
+            Load Balancer
+          </div>
+        </div>
+        
+        {/* Subnets */}
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "15px" }}>
+          <div 
+            onClick={() => setSelected("public")}
+            style={{
+              padding: "15px",
+              background: "#3b82f6",
+              color: "white",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px",
+              minWidth: "100px",
+              textAlign: "center"
+            }}
+          >
+            Public Subnet
+            <div style={{ fontSize: "10px", opacity: 0.8, marginTop: "5px" }}>Web Servers</div>
+          </div>
+          <div 
+            onClick={() => setSelected("private")}
+            style={{
+              padding: "15px",
+              background: "#10b981",
+              color: "white",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px",
+              minWidth: "100px",
+              textAlign: "center"
+            }}
+          >
+            Private Subnet
+            <div style={{ fontSize: "10px", opacity: 0.8, marginTop: "5px" }}>App Servers</div>
+          </div>
+          <div 
+            onClick={() => setSelected("db")}
+            style={{
+              padding: "15px",
+              background: "#06b6d4",
+              color: "white",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "12px",
+              minWidth: "100px",
+              textAlign: "center"
+            }}
+          >
+            DB Subnet
+            <div style={{ fontSize: "10px", opacity: 0.8, marginTop: "5px" }}>Databases</div>
+          </div>
+        </div>
+      </div>
+      
+      {selected && (
+        <div style={{ marginTop: "20px", padding: "15px", background: "#f0fdf4", borderRadius: "8px" }}>
+          {selected === "igw" && <><strong>Internet Gateway:</strong> Enables internet access for VPC resources</>}
+          {selected === "nat" && <><strong>NAT Gateway:</strong> Allows private subnet resources to access internet</>}
+          {selected === "lb" && <><strong>Load Balancer:</strong> Distributes traffic across multiple instances</>}
+          {selected === "public" && <><strong>Public Subnet:</strong> Directly accessible from internet (has public IP)</>}
+          {selected === "private" && <><strong>Private Subnet:</strong> No direct internet access, for application servers</>}
+          {selected === "db" && <><strong>Database Subnet:</strong> Isolated databases, no internet access</>}
+        </div>
+      )}
+    </div>
+  );
+}`
+  }}
+  options={{
+    showNavigator: false,
+  }}
+/>
+
+## Key Networking Concepts
+
+### Subnets
+
+Subnets divide your VPC into smaller network segments:
+
+```json
+{
+  "cidrBlock": "10.0.0.0/16",
+  "subnets": [
+    { "cidr": "10.0.1.0/24", "availabilityZone": "us-east-1a", "public": true },
+    { "cidr": "10.0.2.0/24", "availabilityZone": "us-east-1b", "public": true },
+    { "cidr": "10.0.10.0/24", "availabilityZone": "us-east-1a", "public": false },
+    { "cidr": "10.0.20.0/24", "availabilityZone": "us-east-1b", "public": false }
+  ]
+}
+```
+
+### CIDR Notation
+
+| CIDR | IPs | Use Case |
+|------|-----|----------|
+| /16 | 65,536 | VPC |
+| /24 | 256 | Subnet |
+| /28 | 16 | Small subnet |
+
+## Load Balancing
+
+### Types of Load Balancers
+
+| Type | Layer | Use Case |
+|------|-------|----------|
+| Application LB | L7 | HTTP/HTTPS traffic |
+| Network LB | L4 | TCP, UDP, high performance |
+| Gateway LB | L3 | Security appliances |
+
+### Health Checks
+
+```yaml
+healthCheck:
+  enabled: true
+  path: /health
+  interval: 30
+  timeout: 5
+  healthyThreshold: 2
+  unhealthyThreshold: 3
+```
+
+## DNS and Routing
+
+### Record Types
+
+| Type | Purpose | Example |
+|------|---------|---------|
+| A | IPv4 address | example.com → 1.2.3.4 |
+| AAAA | IPv6 address | example.com → ::1 |
+| CNAME | Alias | api.example.com → lb.example.com |
+| MX | Mail servers | example.com → mail.example.com |
+| TXT | Text records | Verification, SPF |
+
+## Security Groups
+
+Security groups act as virtual firewalls:
+
+```json
+{
+  "GroupName": "web-server-sg",
+  "IpPermissions": [
+    {
+      "IpProtocol": "tcp",
+      "FromPort": 80,
+      "ToPort": 80,
+      "IpRanges": [{ "CidrIp": "0.0.0.0/0" }]
+    },
+    {
+      "IpProtocol": "tcp",
+      "FromPort": 443,
+      "ToPort": 443,
+      "IpRanges": [{ "CidrIp": "0.0.0.0/0" }]
+    },
+    {
+      "IpProtocol": "tcp",
+      "FromPort": 22,
+      "ToPort": 22,
+      "IpRanges": [{ "CidrIp": "10.0.0.0/16" }]
+    }
+  ]
+}
+```
+
+## Best Practices
+
+1. **Use private subnets** - For databases and internal services
+2. **Enable VPC flow logs** - Monitor network traffic
+3. **Use security groups** - Layered network security
+4. **Implement NAT** - Allow outbound without inbound exposure
+5. **Use private endpoints** - Access services without internet
+
+## Conclusion
+
+Understanding cloud networking is fundamental for building secure, scalable applications. Master these concepts to design robust cloud architectures.

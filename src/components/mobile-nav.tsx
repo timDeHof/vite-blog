@@ -1,12 +1,20 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { Icons } from "./icons";
 import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { Link } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
+import { useState } from "react";
+import { Icons } from "./icons";
+import { primaryNav } from "./mainNav";
+import { Button } from "./ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
+/**
+ * Render the mobile navigation sheet used on small screens.
+ *
+ * Renders a slide-over sheet with a trigger button, a brand link, a list of primary navigation items (each closing the sheet when selected), and external links that open in new tabs.
+ *
+ * @returns A React element containing the mobile navigation UI: trigger button, brand link, primary navigation items, and external links.
+ */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
 
@@ -28,12 +36,11 @@ export function MobileNav() {
           <span className='font-bold'>{siteConfig.name}</span>
         </MobileLink>
         <div className='flex flex-col gap-3 mt-3'>
-          <MobileLink onOpenChange={setOpen} to='/blog'>
-            Blog
-          </MobileLink>
-          <MobileLink onOpenChange={setOpen} to='/about'>
-            About
-          </MobileLink>
+          {primaryNav.map((item) => (
+            <MobileLink key={item.href} onOpenChange={setOpen} to={item.href}>
+              {item.title}
+            </MobileLink>
+          ))}
           <a
             href={siteConfig.links.github}
             target='_blank'
@@ -63,6 +70,13 @@ interface MobileLinkProps {
   className?: string;
 }
 
+/**
+ * Renders a navigation Link that closes the mobile sheet when clicked.
+ *
+ * @param onOpenChange - Optional callback invoked with `false` to close the sheet when this link is clicked.
+ * @param className - Additional CSS class names applied to the link.
+ * @returns The rendered link element for navigation.
+ */
 function MobileLink({
   to,
   onOpenChange,

@@ -10,206 +10,176 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as NowRouteImport } from './routes/now'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as TagsIndexRouteImport } from './routes/tags/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as TagsTagRouteImport } from './routes/tags/$tag'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
-import { Route as TagsIndexImport } from './routes/tags/index'
-import { Route as BlogIndexImport } from './routes/blog/index'
-import { Route as TagsTagImport } from './routes/tags/$tag'
-import { Route as BlogSlugImport } from './routes/blog/$slug'
+const IndexLazyRouteImport = createFileRoute('/')()
 
-// Create Virtual Routes
-
-const IndexLazyImport = createFileRoute('/')()
-
-// Create/Update Routes
-
-const AboutRoute = AboutImport.update({
+const NowRoute = NowRouteImport.update({
+  id: '/now',
+  path: '/now',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-
-const TagsIndexRoute = TagsIndexImport.update({
+const TagsIndexRoute = TagsIndexRouteImport.update({
   id: '/tags/',
   path: '/tags/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BlogIndexRoute = BlogIndexImport.update({
+const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const TagsTagRoute = TagsTagImport.update({
+const TagsTagRoute = TagsTagRouteImport.update({
   id: '/tags/$tag',
   path: '/tags/$tag',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BlogSlugRoute = BlogSlugImport.update({
+const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugImport
-      parentRoute: typeof rootRoute
-    }
-    '/tags/$tag': {
-      id: '/tags/$tag'
-      path: '/tags/$tag'
-      fullPath: '/tags/$tag'
-      preLoaderRoute: typeof TagsTagImport
-      parentRoute: typeof rootRoute
-    }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/tags/': {
-      id: '/tags/'
-      path: '/tags'
-      fullPath: '/tags'
-      preLoaderRoute: typeof TagsIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/tags/$tag': typeof TagsTagRoute
-  '/blog': typeof BlogIndexRoute
-  '/tags': typeof TagsIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/tags/$tag': typeof TagsTagRoute
-  '/blog': typeof BlogIndexRoute
-  '/tags': typeof TagsIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/about': typeof AboutRoute
+  '/now': typeof NowRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/blog/': typeof BlogIndexRoute
   '/tags/': typeof TagsIndexRoute
 }
-
+export interface FileRoutesByTo {
+  '/': typeof IndexLazyRoute
+  '/about': typeof AboutRoute
+  '/now': typeof NowRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/tags/$tag': typeof TagsTagRoute
+  '/blog': typeof BlogIndexRoute
+  '/tags': typeof TagsIndexRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/': typeof IndexLazyRoute
+  '/about': typeof AboutRoute
+  '/now': typeof NowRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/tags/$tag': typeof TagsTagRoute
+  '/blog/': typeof BlogIndexRoute
+  '/tags/': typeof TagsIndexRoute
+}
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/blog/$slug' | '/tags/$tag' | '/blog' | '/tags'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/now'
+    | '/blog/$slug'
+    | '/tags/$tag'
+    | '/blog/'
+    | '/tags/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blog/$slug' | '/tags/$tag' | '/blog' | '/tags'
+  to: '/' | '/about' | '/now' | '/blog/$slug' | '/tags/$tag' | '/blog' | '/tags'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/now'
     | '/blog/$slug'
     | '/tags/$tag'
     | '/blog/'
     | '/tags/'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutRoute: typeof AboutRoute
+  NowRoute: typeof NowRoute
   BlogSlugRoute: typeof BlogSlugRoute
   TagsTagRoute: typeof TagsTagRoute
   BlogIndexRoute: typeof BlogIndexRoute
   TagsIndexRoute: typeof TagsIndexRoute
 }
 
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/now': {
+      id: '/now'
+      path: '/now'
+      fullPath: '/now'
+      preLoaderRoute: typeof NowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/': {
+      id: '/tags/'
+      path: '/tags'
+      fullPath: '/tags/'
+      preLoaderRoute: typeof TagsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/$tag': {
+      id: '/tags/$tag'
+      path: '/tags/$tag'
+      fullPath: '/tags/$tag'
+      preLoaderRoute: typeof TagsTagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutRoute: AboutRoute,
+  NowRoute: NowRoute,
   BlogSlugRoute: BlogSlugRoute,
   TagsTagRoute: TagsTagRoute,
   BlogIndexRoute: BlogIndexRoute,
   TagsIndexRoute: TagsIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/about",
-        "/blog/$slug",
-        "/tags/$tag",
-        "/blog/",
-        "/tags/"
-      ]
-    },
-    "/": {
-      "filePath": "index.lazy.tsx"
-    },
-    "/about": {
-      "filePath": "about.tsx"
-    },
-    "/blog/$slug": {
-      "filePath": "blog/$slug.tsx"
-    },
-    "/tags/$tag": {
-      "filePath": "tags/$tag.tsx"
-    },
-    "/blog/": {
-      "filePath": "blog/index.tsx"
-    },
-    "/tags/": {
-      "filePath": "tags/index.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

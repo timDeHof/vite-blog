@@ -1,7 +1,8 @@
-import * as runtime from "react/jsx-runtime";
-import React, { lazy, Suspense } from "react";
-import { Link } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Sandpack, type SandpackProps } from "@codesandbox/sandpack-react";
+import { Link } from "lucide-react";
+import React, { lazy, Suspense } from "react";
+import * as runtime from "react/jsx-runtime";
 
 // Enhanced TypeScript interfaces
 interface FrontMatter {
@@ -17,7 +18,7 @@ interface FrontMatter {
 interface CodeElementProps {
   children: string | string[];
   className?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement | HTMLElement> {
@@ -126,18 +127,20 @@ const components = {
   'code[data-inline="true"]': ({ children }: { children: React.ReactNode }) => (
     <code className="font-mono text-sm">{children}</code>
   ),
-  span: ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-    <span style={style}>{children}</span>
-  ),
-  Callout: (props: any) => (
+  Callout: (props: Record<string, unknown>) => (
     <Suspense fallback={<div className="h-24 animate-pulse bg-muted rounded-lg" />}>
       <Callout {...props} />
     </Suspense>
   ),
-  img: (props: any) => (
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
-      <CoverImage {...props} />
+      <CoverImage src={props.src || ''} alt={props.alt || ''} />
     </Suspense>
+  ),
+  Sandpack: (props: SandpackProps) => (
+    <div className="my-8">
+      <Sandpack {...props} />
+    </div>
   ),
 };
 
@@ -151,6 +154,15 @@ const useMDXComponents = (code: string) => {
   return fn({ ...runtime }).default;
 };
 
+/**
+ * Render MDX content into an article, optionally prefacing it with front-matter metadata.
+ *
+ * Renders a header with title, description, and tag chips when `frontMatter` is provided, then renders the compiled MDX component using the local components map.
+ *
+ * @param code - The MDX/MDX-like source string to compile and render.
+ * @param frontMatter - Optional page metadata (title, description, date, tags, etc.) used to render the header.
+ * @returns The article JSX element containing the optional header and the rendered MDX content.
+ */
 export function MDXContent({ code, frontMatter }: MdxProps) {
   const Component = useMDXComponents(code);
   return (
