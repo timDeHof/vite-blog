@@ -154,6 +154,15 @@ const useMDXComponents = (code: string) => {
   return fn({ ...runtime }).default;
 };
 
+/**
+ * Render MDX content into an article, optionally prefacing it with front-matter metadata.
+ *
+ * Renders a header with title, description, and tag chips when `frontMatter` is provided, then renders the compiled MDX component using the local components map.
+ *
+ * @param code - The MDX/MDX-like source string to compile and render.
+ * @param frontMatter - Optional page metadata (title, description, date, tags, etc.) used to render the header.
+ * @returns The article JSX element containing the optional header and the rendered MDX content.
+ */
 export function MDXContent({ code, frontMatter }: MdxProps) {
   const Component = useMDXComponents(code);
   return (

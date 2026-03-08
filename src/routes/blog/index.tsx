@@ -22,6 +22,11 @@ interface BlogSearchParams {
 
 const MDXContent = lazy(() => import('@/components/mdx-components'))
 
+/**
+ * Render the blog listing page with paginated posts and a tag sidebar.
+ *
+ * @returns The page's React element containing the current page's post list, pagination controls, and a tags card with counts.
+ */
 function BlogPage() {
   // Use search params for pagination
   const { page } = Route.useSearch()

@@ -6,6 +6,11 @@ import { cn, sortPosts } from '@/lib/utils'
 import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { Helmet } from 'react-helmet-async'
 
+/**
+ * Renders the home page with a hero section and a list of the four latest published posts.
+ *
+ * @returns The JSX element for the home page, including document head tags, hero controls, and the "Latest Posts" list.
+ */
 function Index() {
   const latestPosts = sortPosts(posts).slice(0, 4)
 

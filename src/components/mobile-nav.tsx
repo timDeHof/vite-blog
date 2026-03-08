@@ -8,6 +8,13 @@ import { primaryNav } from "./mainNav";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
+/**
+ * Render the mobile navigation sheet used on small screens.
+ *
+ * Renders a slide-over sheet with a trigger button, a brand link, a list of primary navigation items (each closing the sheet when selected), and external links that open in new tabs.
+ *
+ * @returns A React element containing the mobile navigation UI: trigger button, brand link, primary navigation items, and external links.
+ */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
 
@@ -63,6 +70,13 @@ interface MobileLinkProps {
   className?: string;
 }
 
+/**
+ * Renders a navigation Link that closes the mobile sheet when clicked.
+ *
+ * @param onOpenChange - Optional callback invoked with `false` to close the sheet when this link is clicked.
+ * @param className - Additional CSS class names applied to the link.
+ * @returns The rendered link element for navigation.
+ */
 function MobileLink({
   to,
   onOpenChange,
