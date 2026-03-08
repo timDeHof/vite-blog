@@ -22,6 +22,11 @@ export const Route = createFileRoute('/blog/$slug')({
   },
 });
 
+/**
+ * Renders a blog post page including document metadata (title, description, Open Graph/Twitter tags), the cover image, title, tags, optional description, MDX-rendered body, and a related-posts sidebar.
+ *
+ * @returns The page's JSX content, or `null` when loader data is not available.
+ */
 function BlogPost() {
   const navigate = useNavigate();
   const data = Route.useLoaderData() as { post: typeof posts[0]; relatedPosts: typeof posts } | null;

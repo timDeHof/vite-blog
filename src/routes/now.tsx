@@ -5,6 +5,11 @@ import { Helmet } from 'react-helmet-async';
 // Last updated timestamp - update this when making significant changes
 const LAST_UPDATED = new Date('2026-03-07');
 
+/**
+ * Renders the "Now" page that presents current focus, learning journey, technical skills, goals, and connection links.
+ *
+ * @returns A JSX element containing page metadata (title, description, RSS), a last-updated timestamp, and structured content sections with external and internal navigation links.
+ */
 function NowPage() {
   return (
     <>

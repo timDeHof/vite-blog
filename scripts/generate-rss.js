@@ -6,6 +6,13 @@ const SITE_URL = "https://blog.timdehof.dev";
 const SITE_TITLE = "Tim's Blog";
 const SITE_DESCRIPTION = "A blog about my life and software development";
 
+/**
+ * Generate RSS feed from .velite/posts.json and write it to public/rss.xml.
+ *
+ * Reads and parses .velite/posts.json in the repository root, filters published posts,
+ * constructs an RSS feed from the posts, ensures the public directory exists, and writes the feed to public/rss.xml.
+ * If reading or parsing the posts file fails, logs the error and exits the process with code 1.
+ */
 function generateRSS() {
   let posts;
   try {

@@ -7,6 +7,13 @@ import { createFileRoute } from "@tanstack/react-router"
 import { slug } from "github-slugger"
 import { Helmet } from 'react-helmet-async'
 
+/**
+ * Renders a tag listing page showing posts for the current route tag.
+ *
+ * Displays only published posts that match the tag, shows a "Tags" card with all tags and their counts (marking the current tag), and sets the document title and meta description based on the tag.
+ *
+ * @returns The JSX element for the tag page
+ */
 function TagPage() {
   const { tag } = Route.useParams()
   const title = tag.split("-").join(" ")
