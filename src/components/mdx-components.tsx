@@ -134,7 +134,7 @@ const components = {
   ),
   img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
-      <CoverImage src={props.src || ''} alt={props.alt || ''} {...props} />
+      <CoverImage src={props.src || ''} alt={props.alt || ''} />
     </Suspense>
   ),
   Sandpack: (props: SandpackProps) => (
