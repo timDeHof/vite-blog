@@ -56,7 +56,7 @@ export function sortTagsByCount(tags: Record<string, number>) {
 export function getPostsByTagSlug(posts: Array<Post>, tag: string) {
   return posts.filter((post) => {
     if (!post.tags) return false;
-    const slugifiedTags = post.tags.map((tag: string) => slug(tag));
+    const slugifiedTags = post.tags.map((t: string) => slug(t));
     return slugifiedTags.includes(tag);
   });
 }
