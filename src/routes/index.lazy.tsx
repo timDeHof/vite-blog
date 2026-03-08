@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet-async'
  * @returns The JSX element for the home page, including document head tags, hero controls, and the "Latest Posts" list.
  */
 function Index() {
-  const latestPosts = sortPosts(posts).slice(0, 4)
+  const latestPosts = sortPosts(posts.filter((post) => post.published)).slice(0, 4)
 
   return (
     <>
@@ -24,7 +24,7 @@ function Index() {
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:mt-10 lg:py-32">
         <div className="container flex flex-col gap-4 text-center">
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-balance">
-            Hello, I&apos;m Tim
+            Hello, I'm Tim
           </h1>
           <p className="max-w-[42rem] mx-auto text-muted-foreground sm:text-xl text-balance">
             Exploring software development, personal growth, and engineering
@@ -57,23 +57,20 @@ function Index() {
           Latest Posts
         </h2>
         <ul className="flex flex-col">
-          {latestPosts.map(
-            (post) =>
-              post.published && (
-                <li
-                  key={post.slug}
-                  className="first:border-t first:border-border"
-                >
-                  <PostItem
-                    slug={post.slug}
-                    title={post.title}
-                    description={post.description}
-                    date={post.date}
-                    tags={post.tags}
-                  />
-                </li>
-              ),
-          )}
+          {latestPosts.map((post) => (
+            <li
+              key={post.slug}
+              className="first:border-t first:border-border"
+            >
+              <PostItem
+                slug={post.slug}
+                title={post.title}
+                description={post.description}
+                date={post.date}
+                tags={post.tags}
+              />
+            </li>
+          ))}
         </ul>
       </section>
     </>
