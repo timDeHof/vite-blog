@@ -4,7 +4,7 @@
         <title>Tim's Blog</title>
         <link>https://blog.timdehof.dev</link>
         <description>A blog about my life and software development</description>
-        <lastBuildDate>Sun, 08 Mar 2026 17:17:17 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 08 Mar 2026 18:03:21 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en</language>
@@ -36,12 +36,12 @@
             <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
         </item>
         <item>
-            <title><![CDATA[Cloud Networking Fundamentals]]></title>
-            <link>https://blog.timdehof.dev/blog/cloud-networking-fundamentals</link>
-            <guid>https://blog.timdehof.dev/blog/cloud-networking-fundamentals</guid>
+            <title><![CDATA[Containerization with Docker]]></title>
+            <link>https://blog.timdehof.dev/blog/containerization-with-docker</link>
+            <guid>https://blog.timdehof.dev/blog/containerization-with-docker</guid>
             <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures.]]></description>
-            <content:encoded><![CDATA[Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures.]]></content:encoded>
+            <description><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></description>
+            <content:encoded><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></content:encoded>
             <author>timdehof@gmail.com (Timothy DeHof)</author>
             <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
         </item>
@@ -56,12 +56,12 @@
             <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
         </item>
         <item>
-            <title><![CDATA[Containerization with Docker]]></title>
-            <link>https://blog.timdehof.dev/blog/containerization-with-docker</link>
-            <guid>https://blog.timdehof.dev/blog/containerization-with-docker</guid>
+            <title><![CDATA[Cloud Networking Fundamentals]]></title>
+            <link>https://blog.timdehof.dev/blog/cloud-networking-fundamentals</link>
+            <guid>https://blog.timdehof.dev/blog/cloud-networking-fundamentals</guid>
             <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></description>
-            <content:encoded><![CDATA[Learn Docker fundamentals for cloud development. Master containers, images, Dockerfiles, and best practices for building cloud-native applications.]]></content:encoded>
+            <description><![CDATA[Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures.]]></description>
+            <content:encoded><![CDATA[Master cloud networking concepts including VPCs, subnets, load balancers, and DNS. Learn how to design secure and scalable network architectures.]]></content:encoded>
             <author>timdehof@gmail.com (Timothy DeHof)</author>
             <enclosure url="https://blog.timdehof.dev/avatar-tim.png" length="0" type="image/png"/>
         </item>
