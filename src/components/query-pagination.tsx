@@ -4,17 +4,20 @@ import {
   PaginationItem,
 } from "./ui/pagination"
 import { Link } from "@tanstack/react-router"
-import { Route as blogRoute } from "../routes/blog"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "./ui/button"
+
+interface QuerySearch {
+  page?: string
+}
 
 interface QueryPaginationProps {
   totalPages: number
   className?: string
+  search: QuerySearch
 }
 
-export function QueryPagination({ totalPages, className }: QueryPaginationProps) {
-  const search = blogRoute.useSearch()
+export function QueryPagination({ totalPages, className, search }: QueryPaginationProps) {
   const currentPage = Number(search.page) || 1
 
   const prevPage = currentPage - 1
