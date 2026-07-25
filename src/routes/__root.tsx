@@ -18,7 +18,7 @@ const TanStackRouterDevtools =
 
 export const Route = createRootRoute({
   component: () => (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-[100dvh] flex flex-col">
       <SiteHeader />
       <main className="flex-1 w-full flex flex-col sm:gap-4 sm:py-4">
         <Outlet />
